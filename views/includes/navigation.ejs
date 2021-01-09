@@ -1,4 +1,15 @@
-
+<style>
+    
+    @media (max-width: 768px) {
+        #tutorContent{
+            margin-top: 5rem;
+        }
+        .main-header{
+            position: fixed;
+            z-index: 20000;
+        }
+    }
+</style>
 <div class="backdrop"></div>
 <header class="main-header">
     
@@ -27,12 +38,12 @@
             <% } %>
             
             <% if(isAuthenticated && path == '/index' || path == '/404'){ %>
-                <!-- <li class="main-header__item">
+                <li class="main-header__item">
                     <a class="<%= path === '/tutor' ? 'active' : '' %>" href="/tutor">Tutor</a>
                 </li>
                 <li class="main-header__item">
                     <a class="<%= path === '/student' ? 'active' : '' %> ml-3" href="/student">Student</a>
-                </li> -->
+                </li>
             <% } %>
         </ul>
         <ul class="main-header__item-list">

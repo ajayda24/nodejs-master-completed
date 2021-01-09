@@ -5,6 +5,7 @@
         }
         #tutorContent{
           margin: 60px auto;
+          width: 50rem;
         }
         #details{
           width: 20rem;
@@ -21,7 +22,7 @@
     
     <%- include('../includes/navigation.ejs') %>
     <%- include('./nav.ejs') %>
-    <div id="tutorContent" class="centered">
+    <div id="tutorContent" class="centered" style="">
       <a href="/student/chat"> <i class="fas fa-comment-dots" id="chatBox"></i></a>
       <% if(assignment.file){ %>
         <div class="card mb-3 " id="details">
@@ -42,7 +43,7 @@
           </div>
         </div>
       <% } else { %>
-        <div class="card border-dark mb-3" style="max-width: 45rem;">
+        <div class="card border-dark mb-3" style="max-width: 45rem; margin: auto;">
           <div class="card-header bg-transparent border-primary h3 text-center"><%= assignment.topic %></div>
           <div class="card-body text-dark">
             <% enterKey = false %>
@@ -60,8 +61,8 @@
           </div>
           <div class="card-footer bg-transparent border-success text-center"><%= assignment.date %></div>
         </div>
+        
       <% } %>
-      
 
 
 

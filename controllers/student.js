@@ -160,10 +160,14 @@ exports.getAttendance = (req, res, next) => {
       const todayAttendance = student.attendance.find(
         ({ date }) => date == today
       )
-      console.log(todayAttendance)
       // const todayAttendance = student.attendance.filter(({ date }) => date);
 
-      const attendanceNewEntry = student.attendance.reverse()
+      const attendanceNewEntry = student.attendance
+        .sort(function (a, b) {
+          return new Date(a.date) - new Date(b.date)
+        })
+        .reverse()
+
 
       var date = new Date(today)
       var dd = String(date.getDate()).padStart(2, '0')
@@ -181,9 +185,10 @@ exports.getAttendance = (req, res, next) => {
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
 
         var lastUpdated = lastAttendance.lastUpdated
-        if (!todayAttendance  && diffDays > 1 && lastUpdated != today) {
-          var z = new Date()
-          for (var i = 0; i < diffDays; i++) {
+        if (!todayAttendance  && diffDays >= 1 && lastUpdated != today) {
+          
+          for (var i = 1; i < diffDays; i++) {
+            var z = new Date()
             z.setDate(z.getDate() - i)
             var y = z.toLocaleDateString()
             var attendance = {
@@ -209,6 +214,9 @@ exports.getAttendance = (req, res, next) => {
           absent.push(student.attendance[i])
         }
       }
+
+      // console.log(present)
+      // console.log(absent)
 
       var tutorAssignmentsNotes = tutor.assignments
         .concat(tutor.notes)
@@ -1148,6 +1156,7 @@ exports.getNotesDetails = (req, res, next) => {
         var attendance = {
           date: today,
           present: true,
+          lastUpdated: today,
         }
         student.attendance.push(attendance)
         student.save()

@@ -289,6 +289,10 @@ html, body {
   background: #393c74;
 }
 
+#body{
+  margin: auto;
+}
+
 @media only screen and (max-width: 768px) {
   .row{
     margin-top: 20px;
@@ -314,6 +318,9 @@ html, body {
     left:325px;
     top: 410px; 
   }
+  #body{
+    margin-top: 5rem;
+  }
 
 }
 
@@ -324,7 +331,11 @@ html, body {
     height: 450px;
   }
 
+  
+
 }
+
+
 </style>
 
 
@@ -334,7 +345,8 @@ html, body {
 <body translate="no" >
   <%- include('../includes/navigation.ejs') %>
     <%- include('./nav.ejs') %>
-<div id="body" style="margin: auto;" > 
+    <!-- <div id="tutorContent"> -->
+<div id="body"> 
   <script>
     $(".chat-logs").stop().animate({ scrollTop: $(".chat-logs")[0].scrollHeight }, 1000);
   </script>
@@ -424,6 +436,7 @@ html, body {
   </div>
   </div>
 </div>
+<!-- </div> -->
 <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
 
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>

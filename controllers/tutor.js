@@ -2101,7 +2101,6 @@ exports.getVideoChat = (req,res,next) => {
 
       const sId = req.query.sId
       console.log(sId)
-      const message1 = 'Tutor is inviting you to join the video chat.'
       const message2 = `${process.env.HOST_NAME}/student/chat/video/` + videoId
       const date = new Date().toLocaleDateString(undefined, {
         day: '2-digit',
@@ -2115,18 +2114,12 @@ exports.getVideoChat = (req,res,next) => {
       // Tutor.findOne({ _id: req.session.tutor._id })
       //   .then((tutor) => {
       var chat = {}
-      chat1 = {
-        message: message1,
-        date: date,
-        sId: sId,
-      }
       chat2 = {
         message: message2,
         date: date,
         sId: sId,
         videoId: true
       }
-      tutor.chat.push(chat1)
       tutor.chat.push(chat2)
       var inviteVideo = await tutor.save()
 
