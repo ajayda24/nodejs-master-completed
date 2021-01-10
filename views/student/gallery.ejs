@@ -1,0 +1,53 @@
+<%- include('../includes/head.ejs') %>
+    <style>
+        body{
+            padding-left: 4.5rem;
+        }
+
+        @media (min-width: 768px) {
+          #tutorContent{
+            margin: 2rem;
+          }
+        }
+    </style>
+</head>
+
+<body>
+    
+    <%- include('../includes/navigation.ejs') %>
+    <%- include('./nav.ejs') %>
+    <div id="tutorContent" class="centered justify-content-center">
+      <a href="/student/chat"> <i class="fas fa-comment-dots" id="chatBox"></i></a>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+
+        <% if(images.length > 0){ %>
+
+        <%for (image of images) { %>
+
+          <div class="col mb-4">
+            <div class="card h-100">
+              <img src="/<%= image.imageUrl %>" class="card-img-top" alt="image">
+              <div class="card-body">
+
+              </div>
+              <div class="card-footer">
+                <small class="text-muted">Posted at <%= image.date %> </small>
+              </div>
+            </div>
+          </div>
+
+        <% } %>
+        <% } %>
+      </div>
+    </div>
+
+
+
+
+    <script>
+      var imageNumber ='<%=images.length%>';
+      const sHeight = document.body.scrollHeight;
+      document.getElementById('sidebar').style.height = sHeight+(200*imageNumber)+'px'
+    </script>
+    
+<%- include('../includes/end.ejs') %>

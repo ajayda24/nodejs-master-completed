@@ -471,7 +471,9 @@ exports.postDeleteStudents = (req, res, next) => {
         student.photo !=
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREXkCmHkZReqX244oe5PqHs7Xx87MdHEbbfA&usqp=CAU'
       ) {
-        deletFiles.deleteFile(student.photo)
+        if (fs.existsSync(student.photo)) {
+          deletFiles.deleteFile(student.photo, next)
+        }
       }
     })
     .catch((err) => {
@@ -770,8 +772,8 @@ exports.postDeleteAssignments = (req, res, next) => {
   const assignmentId = req.body.assignmentId
   Tutor.findOne({ _id: req.session.tutor._id }, function (err, tutor) {
     const assignment = tutor.assignments.find(({ _id }) => _id == assignmentId)
-    if (assignment.file) {
-      deletFiles.deleteFile(assignment.file)
+    if (fs.existsSync(assignment.file)) {
+      deletFiles.deleteFile(assignment.file, next)
     }
   })
   Tutor.findByIdAndUpdate(req.session.tutor._id, {
@@ -964,8 +966,8 @@ exports.postDeleteNotes = (req, res, next) => {
   const noteId = req.body.noteId
   Tutor.findOne({ _id: req.session.tutor._id }, function (err, tutor) {
     const note = tutor.notes.find(({ _id }) => _id == noteId)
-    if (note.file) {
-      deletFiles.deleteFile(note.file)
+    if (fs.existsSync(note.file)) {
+      deletFiles.deleteFile(note.file, next)
     }
   })
   Tutor.findByIdAndUpdate(req.session.tutor._id, {
@@ -1140,8 +1142,8 @@ exports.postDeleteAnnouncements = (req, res, next) => {
     const announcement = tutor.announcements.find(
       ({ _id }) => _id == announcementId
     )
-    if (announcement.file) {
-      deletFiles.deleteFile(announcement.file)
+    if (fs.existsSync(announcement.file)) {
+      deletFiles.deleteFile(announcement.file, next)
     }
   })
 
@@ -1386,8 +1388,8 @@ exports.postDeleteEvents = (req, res, next) => {
 
   Tutor.findOne({ _id: req.session.tutor._id }, function (err, tutor) {
     const eventSingle = tutor.events.find(({ _id }) => _id == eventId)
-    if (eventSingle.file) {
-      deletFiles.deleteFile(eventSingle.file)
+    if (fs.existsSync(eventSingle.file)) {
+      deletFiles.deleteFile(eventSingle.file, next)
     }
   })
 
@@ -1922,8 +1924,8 @@ exports.postDeleteImages = (req, res, next) => {
   Tutor.findOne({ _id: req.session.tutor._id }, function (err, tutor) {
     const image = tutor.images.find(({ _id }) => _id == imageId)
     if(image){
-      if (image.imageUrl) {
-        deletFiles.deleteFile(image.imageUrl)
+      if (fs.existsSync(image.imageUrl)) {
+        deletFiles.deleteFile(image.imageUrl, next)
       }
     }
   })

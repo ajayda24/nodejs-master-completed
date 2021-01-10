@@ -400,7 +400,7 @@ exports.postDeleteAssignments = (req, res, next) => {
     const assignment = student.assignments.find(
       ({ _id }) => _id == assignmentId
     )
-    if (assignment.file) {
+    if (fs.existsSync(assignment.file)) {
       deletFiles.deleteFile(assignment.file)
     }
   })
@@ -1161,6 +1161,33 @@ exports.getNotesDetails = (req, res, next) => {
         student.attendance.push(attendance)
         student.save()
       }
+    })
+  })
+}
+
+exports.getGallery = (req,res,next) => {
+  Student.findOne({ _id: req.session.student._id }, function (err, student) {
+    Tutor.findOne({ _id: student.tutorId }, function (err, tutor) {
+      var tutorAssignmentsNotes = tutor.assignments
+        .concat(tutor.notes)
+        .flat()
+        .sort(function (a, b) {
+          return new Date(a.date) - new Date(b.date)
+        })
+        .reverse()
+      
+      const tutorImages = tutor.images.reverse()  
+
+      res.render('student/gallery', {
+        pageTitle: 'Dashboard',
+        path: '/student',
+        sPath: '/student/gallery',
+        name: student.name,
+        editing: false,
+        isAuthenticated: req.session.isStudentLoggedIn,
+        tutorAssignmentsNotes: tutorAssignmentsNotes,
+        images: tutorImages,
+      })
     })
   })
 }

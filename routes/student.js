@@ -38,31 +38,15 @@ router.get('/attendance',studentAuth, studentController.getAttendance);
 router.get('/assignments',studentAuth, studentController.getAssignments);
 
 // /student/assignments/add => POST
-router.post(
-  '/assignments/add',
-  studentAuth,
-  studentController.postAddAssignments
-)
+router.post('/assignments/add',studentAuth,studentController.postAddAssignments)
 
 // /student/assignments/details => GET
-router.get(
-  '/assignments/details/:assignmentId',
-  studentAuth,
-  studentController.getAssignmentsDetails
-)
+router.get('/assignments/details/:assignmentId',studentAuth,studentController.getAssignmentsDetails)
 
-router.get(
-  '/assignments/personal/details/:assignmentId',
-  studentAuth,
-  studentController.getStudentAssignmentsDetails
-)
+router.get('/assignments/personal/details/:assignmentId',studentAuth,studentController.getStudentAssignmentsDetails)
 
 // /student/assignments/delete => POST
-router.post(
-  '/assignments/delete',
-  studentAuth,
-  studentController.postDeleteAssignments
-)
+router.post('/assignments/delete',studentAuth,studentController.postDeleteAssignments)
 
 // /student/announcements => GET
 router.get('/announcements',studentAuth, studentController.getAnnouncements);
@@ -100,6 +84,9 @@ router.get('/notes',studentAuth, studentController.getNotes);
 
 // /student/notes/details => GET
 router.get('/notes/details/:notesId',studentAuth,studentController.getNotesDetails);
+
+// /student/gallery => GET
+router.get('/gallery', studentAuth, studentController.getGallery)
 
 // /student/profile => GET
 router.get('/profile',studentAuth, studentController.getProfile);
