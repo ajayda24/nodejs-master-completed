@@ -58,9 +58,14 @@
     <div id="tutorContent" class="centered justify-content-center" >
       <a href="/student/chat"> <i class="fas fa-comment-dots" id="chatBox"></i></a>
       
-      h
+      
     </div>
 
-    
+    <script>
+        const height = window.innerHeight;
+        var monthAttendanceNo = '<%=monthAttendance.length%>'
+        Number(monthAttendanceNo)
+        document.getElementById("sidebar").style.height = height+(30*monthAttendanceNo)+'px';
+    </script>
 
 <%- include('../includes/end.ejs') %>
