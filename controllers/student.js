@@ -299,7 +299,6 @@ exports.getAttendance = (req, res, next) => {
         presentInMonth: presentInMonth.length,
         absentInMonth : absentInMonth.length,
         tutorAssignmentsNotes: tutorAssignmentsNotes,
-        abc: '123'
       })
     })
   })
