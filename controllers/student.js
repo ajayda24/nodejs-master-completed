@@ -281,7 +281,7 @@ exports.getAttendance = (req, res, next) => {
         })
         .reverse()
 
-      res.render('student/attendance', {
+      res.render('404', {
         pageTitle: 'Attendance',
         path: '/student',
         sPath: '/student/attendance',

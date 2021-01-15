@@ -62,7 +62,7 @@
         <h1 class="mb-4">Attendance</h1>
         <form action="/tutor/attendance/search/" method="post">
           <div class="form-group" style="width: 200px;">
-            <input  class="form-control" type="month" id="example-date-input" name="date" value="" disabled>
+            <input  class="form-control" type="month" id="example-date-input" name="date" value="<%= getMonth %>" disabled>
           </div>
           <!-- <button type="submit" class="btn btn-primary mb-4">Search</button> -->
         </form>
@@ -80,14 +80,26 @@
               </tr>
             </thead>
             <tbody>
-              
+              <%for (let attendance of monthAttendance) { %>
+                    <tr class="trHover">
+
+
+                    <th scope="row"><%= attendance.date %></th>
+
+                    <% if(attendance.present) { %>
+                        <td>P</td>
+                    <% } else { %>
+                        <td>A</td>
+                    <% } %>    
+                    </tr>
+              <% } %>
             </tbody>
           </table>
     </div>
 
     <script>
         const height = window.innerHeight;
-        var monthAttendanceNo = '3'
+        var monthAttendanceNo = '<%=monthAttendance.length%>'
         Number(monthAttendanceNo)
         document.getElementById("sidebar").style.height = height+(30*monthAttendanceNo)+'px';
     </script>
