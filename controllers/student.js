@@ -294,10 +294,10 @@ exports.getAttendance = (req, res, next) => {
         monthAttendance: monthAttendance,
         student: student,
         getMonth: today33,
-        daysInMonth: daysInMonth2,
-        attendancePercent: attendancePercent,
-        presentInMonth: presentInMonth.length,
-        absentInMonth : absentInMonth.length,
+        daysInMonth: '31',
+        attendancePercent: '10',
+        presentInMonth: '13',
+        absentInMonth : '3',
         tutorAssignmentsNotes: tutorAssignmentsNotes,
       })
     })
