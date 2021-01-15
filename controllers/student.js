@@ -218,6 +218,63 @@ exports.getAttendance = (req, res, next) => {
       // console.log(present)
       // console.log(absent)
 
+      
+      
+
+      var getMonthWiseAttendance = student.attendance.map(month => {
+        // function you can use:
+        function getSecondPart(str) {
+          return str.split('/')[0]
+        }
+        var getMonth = new Date(getSecondPart(month.date) + '/01/2021').getMonth() + 1
+        
+        return getMonth
+      })
+
+      var monthAttendance;
+      for (var i = 0; i < getMonthWiseAttendance.length; i++) {
+        monthAttendance = student.attendance.filter(
+          ({ date }) => date.slice(0, 1).toString() == getMonthWiseAttendance[i]
+        )
+        monthAttendance.reverse()
+      }
+      
+
+      var today3 = new Date(monthAttendance[0].date).toLocaleDateString()
+      var date3 = new Date(today3)
+      var dd3 = String(date3.getDate()).padStart(2, '0')
+      var mm3 = String(date3.getMonth() + 1).padStart(2, '0') //January is 0!
+      var yyyy3 = date3.getFullYear()
+
+      today33 = yyyy3 + '-' + mm3
+
+      // console.log(monthAttendance)
+      // console.log(today33)
+
+      function daysInMonth(month, year) {
+        return new Date(year, month, 0).getDate()
+      }
+
+      var daysInMonth2 = daysInMonth(mm3,yyyy3)
+
+      var attendancePercent = Math.round((present.length / daysInMonth2)*100)
+      
+      // console.log(daysInMonth)
+      var presentInMonth = []
+      var absentInMonth = []
+      for(var i=0;i<monthAttendance.length;i++){
+        if(monthAttendance[i].present){
+          // console.log(monthAttendance[i])
+          presentInMonth.push(monthAttendance[i])
+        }
+        else {
+          absentInMonth.push(monthAttendance[i])
+        }
+        
+      }
+      console.log(presentInMonth)
+      console.log(absentInMonth)
+
       var tutorAssignmentsNotes = tutor.assignments
         .concat(tutor.notes)
         .flat()
@@ -236,6 +293,13 @@ exports.getAttendance = (req, res, next) => {
         present: present.length,
         absent: absent.length,
         monthYear: monthYear,
+        monthAttendance: monthAttendance,
+        student: student,
+        getMonth: today33,
+        daysInMonth: daysInMonth2,
+        attendancePercent: attendancePercent,
+        presentInMonth: presentInMonth.length,
+        absentInMonth : absentInMonth.length,
         tutorAssignmentsNotes: tutorAssignmentsNotes,
       })
     })
