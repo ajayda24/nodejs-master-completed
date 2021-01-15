@@ -110,7 +110,6 @@ app.use((error, req, res, next) => {
   // res.redirect('/500');
   res.status(500).render('500', {
     pageTitle: 'Error!',
-    asd: 'asd',
     path: '/500',
     isAuthenticated: req.session.isLoggedIn,
   })
