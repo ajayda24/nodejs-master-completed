@@ -272,8 +272,6 @@ exports.getAttendance = (req, res, next) => {
         }
         
       }
-      console.log(presentInMonth)
-      console.log(absentInMonth)
 
       var tutorAssignmentsNotes = tutor.assignments
         .concat(tutor.notes)
@@ -292,14 +290,14 @@ exports.getAttendance = (req, res, next) => {
         isAuthenticated: req.session.isStudentLoggedIn,
         present: present.length,
         absent: absent.length,
-        monthYear: monthYear,
-        monthAttendance: monthAttendance,
-        student: student,
-        getMonth: today33,
-        daysInMonth: daysInMonth2,
-        attendancePercent: attendancePercent,
-        presentInMonth: presentInMonth.length,
-        absentInMonth : absentInMonth.length,
+        // monthYear: monthYear,
+        // monthAttendance: monthAttendance,
+        // student: student,
+        // getMonth: today33,
+        // daysInMonth: daysInMonth2,
+        // attendancePercent: attendancePercent,
+        // presentInMonth: presentInMonth.length,
+        // absentInMonth : absentInMonth.length,
         tutorAssignmentsNotes: tutorAssignmentsNotes,
       })
     })
