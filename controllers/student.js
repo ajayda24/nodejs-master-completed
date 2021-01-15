@@ -156,122 +156,122 @@ exports.getTask = (req, res, next) => {
 exports.getAttendance = (req, res, next) => {
   Student.findOne({ _id: req.session.student._id }, function (err, student) {
     Tutor.findOne({ _id: student.tutorId }, function (err, tutor) {
-      // const today = new Date().toLocaleDateString()
-      // const todayAttendance = student.attendance.find(
-      //   ({ date }) => date == today
-      // )
-      // // const todayAttendance = student.attendance.filter(({ date }) => date);
+      const today = new Date().toLocaleDateString()
+      const todayAttendance = student.attendance.find(
+        ({ date }) => date == today
+      )
+      // const todayAttendance = student.attendance.filter(({ date }) => date);
 
-      // const attendanceNewEntry = student.attendance
-      //   .sort(function (a, b) {
-      //     return new Date(a.date) - new Date(b.date)
-      //   })
-      //   .reverse()
+      const attendanceNewEntry = student.attendance
+        .sort(function (a, b) {
+          return new Date(a.date) - new Date(b.date)
+        })
+        .reverse()
 
 
-      // var date = new Date(today)
-      // var dd = String(date.getDate()).padStart(2, '0')
-      // var mm = String(date.getMonth() + 1).padStart(2, '0') //January is 0!
-      // var yyyy = date.getFullYear()
+      var date = new Date(today)
+      var dd = String(date.getDate()).padStart(2, '0')
+      var mm = String(date.getMonth() + 1).padStart(2, '0') //January is 0!
+      var yyyy = date.getFullYear()
 
-      // monthYear = mm + '  /  ' + yyyy
+      monthYear = mm + '  /  ' + yyyy
 
-      // // const diffInDays = Math.abs(today - student.attendance.date) / (1000 * 60 * 60 * 24)
-      // const lastAttendance = attendanceNewEntry[0]
-      // if (lastAttendance) {
-      //   const d1 = new Date(lastAttendance.date)
-      //   const d2 = new Date(today)
-      //   const diffTime = Math.abs(d2 - d1)
-      //   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+      // const diffInDays = Math.abs(today - student.attendance.date) / (1000 * 60 * 60 * 24)
+      const lastAttendance = attendanceNewEntry[0]
+      if (lastAttendance) {
+        const d1 = new Date(lastAttendance.date)
+        const d2 = new Date(today)
+        const diffTime = Math.abs(d2 - d1)
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
 
-      //   var lastUpdated = lastAttendance.lastUpdated
-      //   if (!todayAttendance  && diffDays >= 1 && lastUpdated != today) {
+        var lastUpdated = lastAttendance.lastUpdated
+        if (!todayAttendance  && diffDays >= 1 && lastUpdated != today) {
           
-      //     for (var i = 1; i < diffDays; i++) {
-      //       var z = new Date()
-      //       z.setDate(z.getDate() - i)
-      //       var y = z.toLocaleDateString()
-      //       var attendance = {
-      //         date: y,
-      //         present: false,
-      //         lastUpdated: today,
-      //       }
-      //       student.attendance.push(attendance)
-      //     }
-      //     student.save()
-      //   }
-      // }
+          for (var i = 1; i < diffDays; i++) {
+            var z = new Date()
+            z.setDate(z.getDate() - i)
+            var y = z.toLocaleDateString()
+            var attendance = {
+              date: y,
+              present: false,
+              lastUpdated: today,
+            }
+            student.attendance.push(attendance)
+          }
+          student.save()
+        }
+      }
 
-      // let present = []
-      // let absent = []
-      // for (let i = 0; i < student.attendance.length; i++) {
-      //   if (student.attendance[i].present == true) {
-      //     present.push(student.attendance[i])
-      //   }
-      // }
-      // for (let i = 0; i < student.attendance.length; i++) {
-      //   if (student.attendance[i].present == false) {
-      //     absent.push(student.attendance[i])
-      //   }
-      // }
+      let present = []
+      let absent = []
+      for (let i = 0; i < student.attendance.length; i++) {
+        if (student.attendance[i].present == true) {
+          present.push(student.attendance[i])
+        }
+      }
+      for (let i = 0; i < student.attendance.length; i++) {
+        if (student.attendance[i].present == false) {
+          absent.push(student.attendance[i])
+        }
+      }
 
-      // // console.log(present)
-      // // console.log(absent)
+      // console.log(present)
+      // console.log(absent)
 
       
       
 
-      // var getMonthWiseAttendance = student.attendance.map(month => {
-      //   // function you can use:
-      //   function getSecondPart(str) {
-      //     return str.split('/')[0]
-      //   }
-      //   var getMonth = new Date(getSecondPart(month.date) + '/01/2021').getMonth() + 1
+      var getMonthWiseAttendance = student.attendance.map(month => {
+        // function you can use:
+        function getSecondPart(str) {
+          return str.split('/')[0]
+        }
+        var getMonth = new Date(getSecondPart(month.date) + '/01/2021').getMonth() + 1
         
-      //   return getMonth
-      // })
+        return getMonth
+      })
 
-      // var monthAttendance;
-      // for (var i = 0; i < getMonthWiseAttendance.length; i++) {
-      //   monthAttendance = student.attendance.filter(
-      //     ({ date }) => date.slice(0, 1).toString() == getMonthWiseAttendance[i]
-      //   )
-      //   monthAttendance.reverse()
-      // }
+      var monthAttendance;
+      for (var i = 0; i < getMonthWiseAttendance.length; i++) {
+        monthAttendance = student.attendance.filter(
+          ({ date }) => date.slice(0, 1).toString() == getMonthWiseAttendance[i]
+        )
+        monthAttendance.reverse()
+      }
       
 
-      // var today3 = new Date(monthAttendance[0].date).toLocaleDateString()
-      // var date3 = new Date(today3)
-      // var dd3 = String(date3.getDate()).padStart(2, '0')
-      // var mm3 = String(date3.getMonth() + 1).padStart(2, '0') //January is 0!
-      // var yyyy3 = date3.getFullYear()
+      var today3 = new Date(monthAttendance[0].date).toLocaleDateString()
+      var date3 = new Date(today3)
+      var dd3 = String(date3.getDate()).padStart(2, '0')
+      var mm3 = String(date3.getMonth() + 1).padStart(2, '0') //January is 0!
+      var yyyy3 = date3.getFullYear()
 
-      // today33 = yyyy3 + '-' + mm3
+      today33 = yyyy3 + '-' + mm3
 
-      // // console.log(monthAttendance)
-      // // console.log(today33)
+      // console.log(monthAttendance)
+      // console.log(today33)
 
-      // function daysInMonth(month, year) {
-      //   return new Date(year, month, 0).getDate()
-      // }
+      function daysInMonth(month, year) {
+        return new Date(year, month, 0).getDate()
+      }
 
-      // var daysInMonth2 = daysInMonth(mm3,yyyy3)
+      var daysInMonth2 = daysInMonth(mm3,yyyy3)
 
-      // var attendancePercent = Math.round((present.length / daysInMonth2)*100)
+      var attendancePercent = Math.round((present.length / daysInMonth2)*100)
       
-      // // console.log(daysInMonth)
-      // var presentInMonth = []
-      // var absentInMonth = []
-      // for(var i=0;i<monthAttendance.length;i++){
-      //   if(monthAttendance[i].present){
-      //     // console.log(monthAttendance[i])
-      //     presentInMonth.push(monthAttendance[i])
-      //   }
-      //   else {
-      //     absentInMonth.push(monthAttendance[i])
-      //   }
+      // console.log(daysInMonth)
+      var presentInMonth = []
+      var absentInMonth = []
+      for(var i=0;i<monthAttendance.length;i++){
+        if(monthAttendance[i].present){
+          // console.log(monthAttendance[i])
+          presentInMonth.push(monthAttendance[i])
+        }
+        else {
+          absentInMonth.push(monthAttendance[i])
+        }
         
-      // }
+      }
 
       var tutorAssignmentsNotes = tutor.assignments
         .concat(tutor.notes)
@@ -288,16 +288,16 @@ exports.getAttendance = (req, res, next) => {
         name: student.name,
         editing: false,
         isAuthenticated: req.session.isStudentLoggedIn,
-        present: 1,
-        absent: 2,
-        monthYear: 1,
-        monthAttendance: [],
-        student: {},
-        getMonth: '',
-        daysInMonth: 21,
-        attendancePercent: 10,
-        presentInMonth: 4,
-        absentInMonth : 3,
+        present: present.length,
+        absent: absent.length,
+        monthYear: monthYear,
+        monthAttendance: monthAttendance,
+        student: student,
+        getMonth: today33,
+        daysInMonth: daysInMonth2,
+        attendancePercent: attendancePercent,
+        presentInMonth: presentInMonth.length,
+        absentInMonth : absentInMonth.length,
         tutorAssignmentsNotes: tutorAssignmentsNotes,
       })
     })
