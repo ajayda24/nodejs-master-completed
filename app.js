@@ -101,7 +101,7 @@ app.use('/tutor', tutorRoutes)
 app.use('/student', studentRoutes)
 app.get('/', indexController.getIndex)
 
-app.get('/500', errorController.get500)
+// app.get('/500', errorController.get500)
 
 app.use(errorController.get404)
 
