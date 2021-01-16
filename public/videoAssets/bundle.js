@@ -7617,7 +7617,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         }
 
         function SessionActive() {
-            document.write('Session Active. Please come back later')
+            document.write('Tutor is calling another student. Please come later.')
         }
 
         function SendFilter(filter) {
@@ -7627,8 +7627,8 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         }
 
         function RemovePeer() {
-            document.getElementById("peerVideo").remove();
-            document.getElementById("muteText").remove();
+            $('#peerVideo').remove()
+            $('#muteText').remove()
             if (client.peer) {
                 client.peer.destroy()
             }

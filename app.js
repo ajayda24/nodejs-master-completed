@@ -100,11 +100,11 @@ app.get('/', indexController.getIndex)
 //   var videoId  = req.params.videoId;
 //   // console.log(videoId)
 
-//   if (req.session.tutor._id){
+//   if (req.session.tutor){
     
 //     res.sendFile(path.join(__dirname + '/videoAssets/video.html'))
 
-//   } else if (req.session.student._id){
+//   } else if (req.session.student){
     
 //     res.sendFile(path.join(__dirname + '/videoAssets/video.html'))
     
@@ -122,7 +122,7 @@ app.get('/', indexController.getIndex)
 //   }
 // })
 
-// app.get('/500', errorController.get500)
+app.get('/500', errorController.get500)
 
 app.use(errorController.get404)
 
