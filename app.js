@@ -86,34 +86,55 @@ app.use((req, res, next) => {
 app.use('/studentPaytmCallback', studentController.postEventPaymentPaytmVerify)
 app.use('/tutorPaytmCallback', tutorController.postEventPaymentPaytmVerify)
 
-// app.get('/chat/video/:videoId', tutorController.getVideoChat)
-// app.get('/chat/video/:videoId', studentController.getVideoChat)
+app.use(express.static(__dirname + '/videoAssets'))
 
-// app.get('/chat/video', function (req, res, next) {
-//   if(req.session.isStudentLoggedIn){
-//     res.redirect('/chat/video/:videoId')
-//   } else if (req.session.isTutorLoggedIn){
 
-//   }
-// })
 
 app.use('/tutor', tutorRoutes)
 app.use('/student', studentRoutes)
-app.get('/', indexController.getIndex)
+// app.get('/', indexController.getIndex)
+
+app.get('/', (req, res, next) => {
+  if (req.query.videoId) {
+    console.log('getVideoChat')
+  var videoId  = req.params.videoId;
+  // console.log(videoId)
+
+  if (req.session.tutor._id){
+    
+    res.sendFile(path.join(__dirname + '/videoAssets/video.html'))
+    
+  } else if (req.session.student._id){
+    
+    res.sendFile(path.join(__dirname + '/videoAssets/video.html'))
+    
+  } else {
+    res.redirect('/')
+  }
+    
+  } else {
+    res.render('index', {
+      pageTitle: 'Home Page',
+      path: '/index',
+      isAuthenticated: req.session.isTutorLoggedIn,
+      notifyAssignments: [],
+    })
+  }
+})
 
 // app.get('/500', errorController.get500)
 
 app.use(errorController.get404)
 
-// app.use((error, req, res, next) => {
-//   // res.status(error.httpStatusCode).render(...);
-//   // res.redirect('/500');
-//   res.status(500).render('500', {
-//     pageTitle: 'Error!',
-//     path: '/500',
-//     isAuthenticated: req.session.isLoggedIn,
-//   })
-// })
+app.use((error, req, res, next) => {
+  // res.status(error.httpStatusCode).render(...);
+  // res.redirect('/500');
+  res.status(500).render('500', {
+    pageTitle: 'Error!',
+    path: '/500',
+    isAuthenticated: req.session.isLoggedIn,
+  })
+})
 
 let port = process.env.PORT
 if (port == null || port == '') {

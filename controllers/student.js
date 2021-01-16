@@ -1383,15 +1383,17 @@ exports.getVideoChat = (req, res, next) => {
           })
           .reverse()
 
-        res.render('tutor/video-chat', {
-          pageTitle: 'Dashboard',
-          path: '/student',
-          sPath: '/student/chat',
-          name: student.name,
-          editing: false,
-          isAuthenticated: req.session.isStudentLoggedIn,
-          tutorAssignmentsNotes: tutorAssignmentsNotes,
-        })
+        // res.render('tutor/video-chat', {
+        //   pageTitle: 'Dashboard',
+        //   path: '/student',
+        //   sPath: '/student/chat',
+        //   name: student.name,
+        //   editing: false,
+        //   isAuthenticated: req.session.isStudentLoggedIn,
+        //   tutorAssignmentsNotes: tutorAssignmentsNotes,
+        // })
+        var redirectUrl = '/?videoId=' + videoId
+        res.redirect(redirectUrl)
 
         // io.getIO().emit('NewClient')
       })
