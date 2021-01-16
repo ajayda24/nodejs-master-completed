@@ -92,35 +92,35 @@ app.use(express.static(__dirname + '/videoAssets'))
 
 app.use('/tutor', tutorRoutes)
 app.use('/student', studentRoutes)
-// app.get('/', indexController.getIndex)
+app.get('/', indexController.getIndex)
 
-app.get('/', (req, res, next) => {
-  if (req.query.videoId) {
-    console.log('getVideoChat')
-  var videoId  = req.params.videoId;
-  // console.log(videoId)
+// app.get('/', (req, res, next) => {
+//   if (req.query.videoId) {
+//     console.log('getVideoChat')
+//   var videoId  = req.params.videoId;
+//   // console.log(videoId)
 
-  if (req.session.tutor._id){
+//   if (req.session.tutor._id){
     
-    res.sendFile(path.join(__dirname + '/videoAssets/video.html'))
+//     res.sendFile(path.join(__dirname + '/videoAssets/video.html'))
+
+//   } else if (req.session.student._id){
     
-  } else if (req.session.student._id){
+//     res.sendFile(path.join(__dirname + '/videoAssets/video.html'))
     
-    res.sendFile(path.join(__dirname + '/videoAssets/video.html'))
+//   } else {
+//     res.redirect('/')
+//   }
     
-  } else {
-    res.redirect('/')
-  }
-    
-  } else {
-    res.render('index', {
-      pageTitle: 'Home Page',
-      path: '/index',
-      isAuthenticated: req.session.isTutorLoggedIn,
-      notifyAssignments: [],
-    })
-  }
-})
+//   } else {
+//     res.render('index', {
+//       pageTitle: 'Home Page',
+//       path: '/index',
+//       isAuthenticated: req.session.isTutorLoggedIn,
+//       notifyAssignments: [],
+//     })
+//   }
+// })
 
 // app.get('/500', errorController.get500)
 

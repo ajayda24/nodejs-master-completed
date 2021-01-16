@@ -2103,7 +2103,7 @@ exports.getVideoChat = (req,res,next) => {
 
       const sId = req.query.sId
       console.log(sId)
-      const message2 = `${process.env.HOST_NAME}/?videoId=` + videoId
+      const message2 = `${process.env.HOST_NAME}/student/chat/video/` + videoId
       const date = new Date().toLocaleDateString(undefined, {
         day: '2-digit',
         month: '2-digit',
@@ -2128,17 +2128,16 @@ exports.getVideoChat = (req,res,next) => {
       // io.getIO().emit('chat', {
       //   action: 'chat-add',
       // })
-      var redirectUrl = '/?videoId=' + videoId
-      res.redirect(redirectUrl)
-      // res.render('tutor/video-chat', {
-      //   pageTitle: 'Dashboard',
-      //   path: '/tutor',
-      //   sPath: '/tutor/chat',
-      //   name: tutor.name,
-      //   editing: false,
-      //   isAuthenticated: req.session.isTutorLoggedIn,
-      //   notifyAssignments: studentAssignments,
-      // })
+      
+      res.render('tutor/video-chat', {
+        pageTitle: 'Dashboard',
+        path: '/tutor',
+        sPath: '/tutor/chat',
+        name: tutor.name,
+        editing: false,
+        isAuthenticated: req.session.isTutorLoggedIn,
+        notifyAssignments: studentAssignments,
+      })
       
       
     })
