@@ -337,7 +337,7 @@ html, body {
               <% if(!chat.voiceUrl) { %>
                 <% if(chat.videoId){ %>
                   <div id="cm-msg-" class="chat-msg user" >      
-                    <a target="_blank" href='<%= chat.message %>'><div class="cm-msg-text" >Click to Join Video Chat</div>  </a>   
+                    <a  href='<%= chat.message %>'><div class="cm-msg-text" >Click to Join Video Chat</div>  </a>   
                   </div>
                 <% } else { %>
                   <div id="cm-msg-" class="chat-msg user">      
