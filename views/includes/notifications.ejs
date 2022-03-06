@@ -1,0 +1,102 @@
+<link rel="stylesheet" href="/css/notification.css" />
+
+<div id="mynotifications" class="icon-notification not">
+
+  <% if(path != '/student') { %>
+    <div class="notBtn not">
+      <% if(notifyAssignments.length > 0) { %>
+        <div id="notifyRefresh">
+          
+          <div id="notificationNumber" class="icon-number not"><%= notifyAssignments.length %></div>
+        </div>
+      <% } %>
+      <i class="far fa-bell not bell"></i>
+      <div id="notifyBox">
+
+      <div class="box not">
+        <div class="display not">
+          <div  id="notifyBoxDiv" class="cont not">
+            <% if(notifyAssignments.length > 0) { %>
+            <% for(let notifyAssignment of notifyAssignments) { %>
+            <div class="sec new not">
+              <a href="/tutor/students/details/<%= notifyAssignment.studentId %>">
+                <div class="txt not">
+                  Assignment: "<%= notifyAssignment.topic %>"
+                </div>
+                <div class="txt sub not"><%= notifyAssignment.date %></div>
+              </a>
+            </div>
+            <% } %>
+            <% } else { %>
+              <h5 style="text-align: center;">No New Notifications</h5>
+            <% } %>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <% } else { %>
+
+      <div class="notBtn not">
+      <% if(tutorAssignmentsNotes.length > 0) { %>
+        <div id="notifyRefresh">
+          
+          <div id="notificationNumber" class="icon-number not"><%= tutorAssignmentsNotes.length %> </div>
+        </div>
+      
+      <% } %>
+      <i class="far fa-bell not bell"></i>
+      <div id="notifyBox">
+      <div class="box not">
+        <div class="display not">
+          <div id="notifyBoxDiv" class="cont not">
+            <% if(tutorAssignmentsNotes.length > 0 ) { %>
+            <% for(let tutorAssignmentsNote of tutorAssignmentsNotes) { %>
+            <div class="sec new not">
+              <% if(tutorAssignmentsNote.item == 'Assignment'){ %>
+                <a href="/student/assignments/details/<%= tutorAssignmentsNote._id %>">
+              <% } else { %>
+                <a href="/student/notes/details/<%= tutorAssignmentsNote._id %>">
+              <% } %>  
+                <div class="txt not">
+                  <%= tutorAssignmentsNote.item %>: "<%= tutorAssignmentsNote.topic %>"
+                </div>
+                <div class="txt sub not"><%= tutorAssignmentsNote.date %></div>
+              </a>
+            </div>
+            <% } %>
+            
+            <% } else { %>
+              <h5 style="text-align: center;">No New Notifications</h5>
+            <% } %>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  <% } %>
+</div>
+<script>
+    // setInterval(() => {
+    //     $( "#notifyRefresh" ).load(window.location.href + " #notifyRefresh" );
+    // }, 5000);
+
+  $('#mynotifications').on('click', function () {
+    if(document.getElementById('notificationNumber').textContent != $('#notifyBoxDiv .sec').length){
+      $( "#notifyBox" ).load(window.location.href + " #notifyBox" );
+    }
+
+    setTimeout(() => {
+      $('.box').toggleClass('box-height')
+    }, 100);
+    
+  });
+  setTimeout(() => {
+  $('.wrapper').on('click', function () {
+    $('.box').removeClass('box-height')
+  });
+  }, 200);
+
+
+</script>

@@ -1,0 +1,168 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.1/css/bulma.min.css" integrity="sha512-ZRv40llEogRmoWgZwnsqke3HNzJ0kiI0+pcMgiz2bxO6Ew1DVBtWjVn0qjrXdT3+u+pSN36gLgmJiiQ3cQtyzA==" crossorigin="anonymous" />
+
+<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+
+
+    <style>
+        body{
+            padding-left: 4.5rem;
+        }
+        #tutorContent{
+            margin: 30px auto;
+            width: 50rem;
+        }
+        #form-assignment{
+          margin: auto;
+          
+        }
+        @media (min-width: 768px) {
+        #form-assignment{
+          width: 35rem;
+        }
+    }
+    #hiddenLink{
+      display: none;
+    }
+    
+    </style>
+    
+</head>
+
+<body>
+    
+    <%- include('../includes/navigation.ejs') %>
+    <%- include('./nav.ejs') %>
+        <div id="tutorContent">
+          <a href="/student/chat"> <i class="fas fa-comment-dots" id="chatBox"></i></a>
+            <center>
+                <h1 class="mb-4" style="font-size: 2rem;">Events</h1>
+            </center>
+            
+
+              <table class="table table-hover table-bordered mt-4 " id="table_id" >
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Topic</th>
+                    <th scope="col">Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%for (event of events) { %>
+                  <tr class="trHover" >
+                    <td scope="row"  onclick="window.open('events/details/<%= event._id %>')"><%= event.date %>
+                    </td>
+                    <td scope="row"   onclick="window.location.href='events/details/<%= event._id %>'"><%= event.eventHead %>
+                    </td>
+                    <% if(event.paidEvent) { %>
+                      <% if(event.eventAccess) { %>
+                        <td scope="row"   onclick="window.location.href='events/details/<%= event._id %>'">Purchased
+                        </td>
+                      <% } else { %>
+                        <td scope="row"   onclick="window.location.href='events/details/<%= event._id %>'"><%= event.eventPrice %> Rs
+                        </td>
+                      <% } %>
+                    <% } else { %>
+                      <td scope="row"   onclick="window.location.href='events/details/<%= event._id %>'">Free
+                      </td>
+                    <% } %>
+                  </tr>
+                  <% } %>
+                </tbody>
+              </table>
+        </div>
+
+        <script>
+        
+          function confirmDelete(a){
+            const parentId = a.parentElement.id;
+            const formId = document.getElementById(parentId).firstElementChild.id;
+
+              bootbox.confirm({
+                  title: "Delete Student?",
+                  message: "Do you want to delete this Event now? This cannot be undone.",
+                  buttons: {
+                      cancel: {
+                          label: '<i class="fa fa-times"></i> Cancel'
+                      },
+                      confirm: {
+                          label: '<i class="fa fa-check"></i> Delete'
+                      }
+                  },
+                  callback: function (result) {
+                      if(result){;
+                          const form = document.getElementById(formId)
+                          form.action = "/tutor/events/delete";
+                          form.method = "POST";
+                          form.submit();
+                      } else {
+                          location.reload('/tutor/events')
+                      }
+      
+                  }
+              });
+          }
+      
+          
+          </script>
+    
+    <script>
+      $(document).ready( function () {
+              $('#table_id').DataTable({
+                  order: [[0, 'desc']]
+              });
+      });
+    </script>
+
+    <script src="/js/progressbar.js"></script>
+<script type="text/javascript">
+        $(function () {
+            $('#btnUpload').on("click", function () {
+              $('#dvProgress').show();
+                var sizeInKb = parseFloat($('#fuUpload').prop("files")['0'].size / 1024).toFixed(2);
+                var fileName = $('#fuUpload').prop("files")['0'].name;
+                uploadProgress = $('#dvProgress').progressbarManager({
+                    totalValue: sizeInKb,
+                    initValue: '0kb',
+                    animate: true,
+                    stripe: true,
+                    style: 'primary'
+                });
+                var chunk = 0;
+                var uploading = setInterval(function () {
+                    uploadProgress.setValue(chunk);
+                    if (uploadProgress.isComplete()) {
+                        clearInterval(uploading);
+                        uploadProgress.style('success');
+                    }
+                    chunk += 500;
+                }, 10);
+            });
+        });
+    </script>
+
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+    
+<script>
+  $(function() {
+    $('#toggle-event').change(function() {
+      $('#console-event').html('Toggle: ' + $(this).prop('checked'))
+      document.getElementById('paidEvent').value = $(this).prop('checked')
+      if($(this).prop('checked') == true){
+        document.getElementById('enterPrice').style.display = 'block'
+        document.getElementById('rupees').style.display = 'block'
+        
+      } else {
+        document.getElementById('enterPrice').style.display = 'none'
+        document.getElementById('rupees').style.display = 'none'
+      }
+      
+    })
+  });
+</script>
+<script>
+        const height = window.innerHeight;
+        document.getElementById("sidebar").style.height = height+'px';
+    </script>
+<%- include('../includes/end.ejs') %>

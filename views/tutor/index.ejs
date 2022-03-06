@@ -1,0 +1,177 @@
+<%- include('../includes/head.ejs') %>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+    <style>
+        body{
+            padding-left: 4.5rem;
+            
+        }
+        .wrapper{
+          background-color: #eaecec;
+        }
+        #tutorContent{
+            margin-top: 30px;
+            width: 100%;
+            
+        }
+        #secondDiv{
+          margin: 0 5px;
+        }
+
+        .alignleft {
+	        float: left;
+        }
+        .alignright {
+	        float: right;
+        }
+
+        /* Computer */
+        @media (min-width: 768px) {
+            .mine{
+                margin: 0 30px;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .mine{
+                margin: 10px auto;
+            }
+        }
+
+        #schoolName {
+          /* Prefix required. Even Firefox only supports the -webkit- prefix */
+          -webkit-text-stroke-width: 2.5px;
+          -webkit-text-stroke-color: black;
+          font-size: 3rem;
+        }
+        #quote{
+          font-family: 'Dancing Script', cursive;
+          font-size: 1.7rem;
+          padding: 50px 0;
+        }
+        
+    </style>
+</head>
+
+<body>
+    
+    <%- include('../includes/navigation.ejs') %>
+    <%- include('./nav.ejs') %>
+    <a href="/tutor/chat"> <i class="fas fa-comment-dots" id="chatBox"></i></a>
+    <div id="tutorContent">
+     
+    <div class="row mb-4 ml-3 mr-3"> 
+        <div class="col-md-4 mb-4">
+            <div id="" class="mine card bg-light mb-3  h-100" >
+                <div class="card-body"  style="background-color: #d6e6f2;">
+                  <h6 class="card-title text-center">Today's Class</h6>
+                  <p class="text-center">English</p>
+                  <p>
+                  <span class="alignleft text-dark" style="font-size: 1.2rem;">X - A</span> <span class="alignright text-dark"  style="font-size: 1.2rem;">10:00 AM</span>
+                  </p>
+                  <br><br>
+                  <p>
+                  <span class="alignleft text-dark" style="font-size: 1.2rem;">IX - B</span> <span class="alignright text-dark"  style="font-size: 1.2rem;">11:20 AM</span>
+                  </p>
+                  <br><br>
+                  <p>
+                  <span class="alignleft text-dark" style="font-size: 1.2rem;">VIII - A</span> <span class="alignright text-dark"  style="font-size: 1.2rem;">2:00 PM</span>
+                  </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4 mt-4">
+          <center>
+            <h2 id="schoolName" class="text-light">School / College Name</h2>
+            <h5>Kannur</h5>
+          <div class="btn-group mt-4" role="group" aria-label="Basic example">
+            <a class="btn btn-dark border border-dark m-1" href="/tutor/students">Students</a>
+            <a class="btn btn-light border border-dark m-1" href="/tutor/assignments">Assignments</a>
+            <a class="btn btn-dark border border-dark m-1" href="/tutor/notes">Notes</a>
+          </div>
+          </center>
+        </div>
+        <div class="col-md-4 mb-4 ">
+          <div id="" class="mine card bg-light mb-3  h-100">
+              <div class="card-body"  style="background-color: #d6e6f2;">
+                <h6 class="card-title text-dark text-center">Today's Quote</h6>
+                <p class="card-text font-italic text-dark  font-weight-bold " id="quote"></p>
+              </div>
+          </div>
+      </div>
+    </div>
+
+    <div id="secondDiv" class="row text-center">
+      <div class="col-md-6 h-100 mb-4" >
+        <div id="announcements"  class="m-2 border border-dark rounded " style="height: 375px; background-color: #224353;" >
+          <h4 class="mt-3 text-white">Announcements</h4>
+          <ul class="list-group hash">
+            <% for(announcement of announcements) { %>
+            <li class="list-group-item list-group-item-primary m-1" onclick="window.location.href='/tutor/announcements/details/<%=announcement._id%>'" >
+              <span class="alignleft"><%= announcement.message %></span>
+              <span class="alignright"><%= announcement.date %></span> </li>
+            <% } %>
+          </ul>
+          <div style="clear: both;"></div>
+        </div>
+          
+      </div>
+      <div class="col-md-6 h-100 mb-4">
+        <div id="events" class="m-2 border border-dark rounded " style="height: 375px; background-color: #224353;">
+          <h4 class="mt-3 text-white">Events</h4>
+          <ul class="list-group ">
+            <% for(event of events) { %>
+              <li class="list-group-item list-group-item-primary m-1" onclick="window.location.href='/tutor/events/details/<%=event._id%>'">
+                <span class="alignleft"><%= event.eventHead %></span>  
+                <span class="alignright"><%= event.date %></span></li>
+              <% } %>
+          </ul>
+          <div style="clear: both;"></div>
+        </div>
+        
+      </div>
+    </div>
+
+        
+    </div>
+    
+    <script>
+      var day = new Date().getDate();
+    var dailyQuotes = {
+        1:'"Every moment is a fresh beginning."',
+        2:'"Change the world by being yourself."',
+        3:'"Die with memories, not with dreams"',
+        4:'"Whatever you do, do it well."',
+        5:'"Yesterday you said tomorrow. Just do it."',
+        6:'"A happy soul is the best shield for a cruel world."',
+        7:'"Happiness depends upon ourselves."',
+        8:'"The meaning of life is to give life meaning."',
+        9:'"Hate comes from intimidation, love comes from appreciation."',
+        10:'"What we think, we become."',
+        11:'"Have enough courage to start and enough heart to finish."',
+        12:'"Simplicity is the ultimate sophistication."',
+        13:'"Never let your emotions overpower your intelligence."',
+        14:'"Normality is a paved road: it’s comfortable to walk but no flowers grow."',
+        15:'"Embrace the glorious mess that you are."',
+        16:'"Change the game, do not let the game change you "',
+        17:'"The time is always right to do what is right."',
+        18:'"Strive for greatness."',
+        19:'"There is no substitute for hard work."',
+        20:'"It is always the simple that produces the marvelous."',
+        21:'"Simple pleasures are the last healthy refuge in a complex world."',
+        22:'"Don’t tell people your plans. Show them your results."',
+        23:'"When nothing goes right, go left."',
+        24:'"Take the risk or lose the chance. "',
+        25:'"Good things happen to those who hustle."',
+        26:'"Screw it, let’s do it."',
+        27:'"Dream big."',
+        28:'"If you want it, work for it."',
+        29:'"Whatever you are, be a good one."',
+        30:'"Do it with passion or not at all."',
+        31:'"Dream without fear. Love without limits."',
+      }
+      
+      document.getElementById('quote').innerHTML = dailyQuotes[day];
+    </script>
+<%- include('../includes/end.ejs') %>

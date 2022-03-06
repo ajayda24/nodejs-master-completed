@@ -1,0 +1,107 @@
+<%- include('../includes/head.ejs') %>
+    <style>
+        body{
+            padding-left: 4.5rem;
+        }
+    </style>
+    <style>
+            #tutorContent h1,#tutorContent p{
+                color: #0F2027;
+            }
+            #tutorContent.card {
+              box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+              max-width: 300px;
+              margin: auto;
+              text-align: center;
+              font-family: arial;
+            }
+            
+            #tutorContent.title {
+              color: rgb(49, 6, 6);
+              font-size: 18px;
+            }
+            
+            
+            #tutorContent a {
+              text-decoration: none;
+              font-size: 22px;
+              color: rgb(250, 250, 250);
+              width: 10rem;
+              margin: auto;
+              background-color: #0F2027;
+            }
+
+            #tutorContent a:hover {
+              color: rgb(255, 255, 255);
+              transition: all 0.5s;
+              background-color: #030a25;
+            }
+            
+            #tutorContent button:hover{
+              opacity: 0.7;
+            }
+            #tutorContent.centered{
+              margin: 1rem auto;
+            }
+            #month{
+                padding: 5px;
+                background-color: #f0f0f0;
+                border-radius: 25px;
+            }
+    </style>
+</head>
+
+<body>
+    
+    <%- include('../includes/navigation.ejs') %>
+    <%- include('./nav.ejs') %>
+    <div id="tutorContent" class="centered justify-content-center" >
+      <a href="/student/chat"> <i class="fas fa-comment-dots" id="chatBox"></i></a>
+      
+      <center>
+        <h1 class="mb-4">Attendance</h1>
+        <form action="/tutor/attendance/search/" method="post">
+          <div class="form-group" style="width: 200px;">
+            <input  class="form-control" type="month" id="example-date-input" name="date" value="<%= getMonth %>" disabled>
+          </div>
+          <!-- <button type="submit" class="btn btn-primary mb-4">Search</button> -->
+        </form>
+
+        <h6 class="mt-4">Total Days : <%=daysInMonth%></h6>
+        <h6>Total Present : <%=presentInMonth%></h6>
+        <h6>Total Absent : <%=absentInMonth%></h6>
+        <h6 class="mb-4">Percentage : <%=attendancePercent%> % </h6>
+      </center>
+        <table class="table table-striped table-bordered " id="table1_id" style="width: 22rem;">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Attendance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%for (let attendance of monthAttendance) { %>
+                    <tr class="trHover">
+
+
+                    <th scope="row"><%= attendance.date %></th>
+
+                    <% if(attendance.present) { %>
+                        <td>P</td>
+                    <% } else { %>
+                        <td>A</td>
+                    <% } %>    
+                    </tr>
+              <% } %>
+            </tbody>
+          </table>
+    </div>
+
+    <script>
+        const height = window.innerHeight;
+        var monthAttendanceNo = '<%=monthAttendance.length%>'
+        Number(monthAttendanceNo)
+        document.getElementById("sidebar").style.height = height+(30*monthAttendanceNo)+'px';
+    </script>
+
+<%- include('../includes/end.ejs') %>

@@ -1,0 +1,76 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.1/css/bulma.min.css" integrity="sha512-ZRv40llEogRmoWgZwnsqke3HNzJ0kiI0+pcMgiz2bxO6Ew1DVBtWjVn0qjrXdT3+u+pSN36gLgmJiiQ3cQtyzA==" crossorigin="anonymous" />
+
+<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+
+
+    <style>
+        body{
+            padding-left: 4.5rem;
+        }
+        #tutorContent{
+            margin: 30px auto;
+            width: 50rem;
+        }
+        #form-assignment{
+          margin: auto;
+          
+        }
+        @media (min-width: 768px) {
+        #form-assignment{
+          width: 35rem;
+        }
+    }
+    #hiddenLink{
+      display: none;
+    }
+    
+    </style>
+    
+</head>
+
+<body>
+    
+    <%- include('../includes/navigation.ejs') %>
+    <%- include('./nav.ejs') %>
+        <div id="tutorContent">
+          <table align='center'>
+			      <tr>
+			      	<td><STRONG>Transaction is being processed,</STRONG></td>
+			      </tr>
+			      <tr>
+			      	<td><font color='blue'>Please wait ...</font></td>
+			      </tr>
+			      <tr>
+			      	<td>(Please do not press 'Refresh' or 'Back' button</td>
+			      </tr>
+          </table>
+        </div>
+    <form name='paytmForm' action='https://securegw-stage.paytm.in/theia/processTransaction?mid=LsMLKD47954953698279&orderId=<%= event._id %>' method='POST'>
+			<!-- <input type='hidden' name='CURRENCY' value='INR'> -->
+			<!-- <input type='hidden' name='GATEWAYNAME' value='GATEWAY_USED_BY_PAYTM'>
+			<input type='hidden' name='RESPMSG' value='PAYTM_RESPONSE_MESSAGE_DESCRIPTION'>
+			<input type='hidden' name='BANKNAME' value='BANK_NAME_OF_ISSUING_PAYMENT_MODE'>
+			<input type='hidden' name='PAYMENTMODE' value='PAYMENT_MODE_USED_BY_CUSTOMER'> -->
+			<input type='hidden' name='MID' value='LsMLKD47954953698279'>
+			<!-- <input type='hidden' name='RESPCODE' value='PAYTM_RESPONSE_CODE'>
+			<input type='hidden' name='TXNID' value='PAYTM_TRANSACTION_ID'> -->
+			<input type='hidden' name='TXNAMOUNT' value='<%= event.eventPrice %>'>
+			<input type='hidden' name='ORDERID' value='test-123412476dh74ydgbh'>
+			<!-- <input type='hidden' name='STATUS' value='PAYTM_TRANSACTION_STATUS'>
+			<input type='hidden' name='BANKTXNID' value='BANK_TRANSACTION_ID'>
+			<input type='hidden' name='TXNDATE' value='TRANSACTION_DATE_TIME'> -->
+      <input type='hidden' name='CHECKSUMHASH' value='<%= token %>'>
+      <button type="submit" class="btn btn-primary">Proceed</button>
+    </form>
+
+    <!-- <script type="text/javascript"> 
+      document.forms[0].submit();
+    </script>   -->
+
+    
+    <script>
+      const height = window.innerHeight;
+      document.getElementById("sidebar").style.height = height+'px';
+    </script>
+<%- include('../includes/end.ejs') %>

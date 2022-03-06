@@ -1,0 +1,101 @@
+<style>
+    
+    @media (max-width: 768px) {
+        #tutorContent{
+            margin-top: 5rem;
+        }
+        .main-header{
+            position: fixed;
+            z-index: 20000;
+        }
+        .fa-sign-out-alt{
+            font-size: 1.2rem;
+        }
+    }
+    @media (min-width: 768px) {
+        .fa-sign-out-alt{
+            font-size: 1.5rem;
+        }
+    }
+    
+
+    
+</style>
+<div class="backdrop"></div>
+<header class="main-header">
+    
+    <nav class="main-header__nav">
+        <ul class="main-header__item-list">
+            <% if (isAuthenticated && path == '/tutor') { %>
+                <script>
+                    var openSocket = io();
+                </script>
+
+                <li class="main-header__item">
+                    <a class="active" href="/tutor">Tutor</a>
+                </li>
+            <% } else if(isAuthenticated && path == '/student') { %> 
+                <script>
+                    var openSocket = io();
+                </script>
+
+                <li class="main-header__item">
+                    <a class="active" href="/student">Student</a>
+                </li>
+            <% } else if(!isAuthenticated) { %>   
+                <li class="main-header__item">
+                    <a class="<%= path === '/tutor' ? 'active' : '' %>" href="/tutor">Tutor</a>
+                </li>
+                <li class="main-header__item">
+                    <a class="<%= path === '/student' ? 'active' : '' %> ml-3" href="/student">Student</a>
+                </li>
+            <% } else { %>
+                <li class="main-header__item">
+                    <a class="<%= path === '/tutor' ? 'active' : '' %>" href="/tutor">Tutor</a>
+                </li>
+                <li class="main-header__item">
+                    <a class="<%= path === '/student' ? 'active' : '' %> ml-3" href="/student">Student</a>
+                </li>
+            <% } %>
+        </ul>
+        <ul class="main-header__item-list">
+            <% if (!isAuthenticated) { %>
+                <!-- <li class="main-header__item">
+                    <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
+                </li>
+                <li class="main-header__item">
+                    <a class="<%= path === '/signup' ? 'active' : '' %>" href="/signup">Signup</a>
+                </li> -->
+            <% } else { %>
+                <% if(path != '/index' && path != '/404') { %>
+                <li class="main-header__item" id="notifyLi">
+                    <%- include('../includes/notifications.ejs') %>
+                </li>
+                <% } %>
+
+                <li class="main-header__item">
+                    <form action="/tutor/logout" method="post">
+                        <button type="submit"><i class="fas fa-sign-out-alt"></i></button>
+                    </form>
+                    <button type="button" id="sidebarCollapse" class="btn btn-dark">
+                        <i class="fas fa-align-left"></i>
+                    </button>
+                </li>
+                    
+            <% } %>
+            
+        </ul>
+    </nav>
+</header>
+
+<!-- <script>
+    setInterval(() => {
+        $( "#notifyRefresh" ).load(window.location.href + " #notifyRefresh" );
+    }, 1000);
+</script> -->
+<script>
+    
+    openSocket.on('notifications', data => {
+        $( "#notifyRefresh" ).load(window.location.href + " #notifyRefresh" );
+    });
+</script>

@@ -1,0 +1,121 @@
+<%- include('../includes/head.ejs') %>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.1/css/bulma.min.css" integrity="sha512-ZRv40llEogRmoWgZwnsqke3HNzJ0kiI0+pcMgiz2bxO6Ew1DVBtWjVn0qjrXdT3+u+pSN36gLgmJiiQ3cQtyzA==" crossorigin="anonymous" />
+
+    <style>
+        body{
+            padding-left: 4.5rem;
+        }
+        #tutorContent{
+            margin: 30px auto;
+            width: 50rem;
+        }
+        #form-assignment{
+          margin: auto;
+          
+        }
+        @media (min-width: 768px) {
+        #form-assignment{
+          width: 35rem;
+        }
+    }
+    #hiddenLink{
+      display: none;
+    }
+    </style>
+    
+    
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    <%- include('./nav.ejs') %>
+        <div id="tutorContent">
+          <a href="/student/chat"> <i class="fas fa-comment-dots" id="chatBox"></i></a>
+            <center>
+                <h1 class="mb-4" style="font-size: 2rem;">Notes</h1>
+            </center>
+            
+
+              <table class="table table-hover table-bordered mt-4 " id="table_id" >
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Topic</th>
+                    <th scope="col">File</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%for (note of notes) { %>
+                  <tr class="trHover" >
+                    <td scope="row"><%= note.date %>
+                    </td>
+                    <td scope="row"><%= note.topic %>
+                    </td>
+                    <td scope="row"><%= note.filename %>
+                    </td>
+                    <td style="text-align:center" id="td-<%= note._id %>">
+
+                      <form id="<%= note._id %>" >
+                        <input type="hidden" value="<%= note._id %>" name="noteId">
+                        
+                      </form> 
+                        <a class="btn btn-warning mr-2" href="/student/notes/details/<%= note._id %>"><i class="fas fa-book-open"></i></a> 
+    
+
+                         
+                        <!-- <button class="btn btn-danger" onclick="confirmDelete(this)" ><i class="fas fa-cloud-download-alt"></i></button>  -->
+                    </td>
+                  </tr>
+                  <% } %>
+                </tbody>
+              </table>
+        </div>
+
+        <script>
+        
+          function confirmDelete(a){
+            const parentId = a.parentElement.id;
+            const formId = document.getElementById(parentId).firstElementChild.id;
+
+              bootbox.confirm({
+                  title: "Delete Student?",
+                  message: "Do you want to delete this Note now? This cannot be undone.",
+                  buttons: {
+                      cancel: {
+                          label: '<i class="fa fa-times"></i> Cancel'
+                      },
+                      confirm: {
+                          label: '<i class="fa fa-check"></i> Delete'
+                      }
+                  },
+                  callback: function (result) {
+                      if(result){;
+                          const form = document.getElementById(formId)
+                          form.action = "/tutor/notes/delete";
+                          form.method = "POST";
+                          form.submit();
+                      } else {
+                          location.reload('/tutor/notes')
+                      }
+      
+                  }
+              });
+          }
+      
+          
+          </script>
+    
+    <script>
+      $(document).ready( function () {
+              $('#table_id').DataTable({
+                  order: [[0, 'desc']]
+              });
+      });
+    </script>
+    <script>
+        const height = window.innerHeight;
+        document.getElementById("sidebar").style.height = height+300+'px';
+    </script>
+<%- include('../includes/end.ejs') %>

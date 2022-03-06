@@ -1,0 +1,65 @@
+<%- include('../includes/head.ejs') %>
+    <style>
+        body{
+            padding-left: 4.5rem;
+        }
+        #tutorContent{
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 5rem;
+        }
+        
+    </style>
+</head>
+
+<body>
+    
+    <%- include('../includes/navigation.ejs') %>
+    <%- include('./nav.ejs') %>
+    <div id="tutorContent" style="width: 35rem;">
+        <a href="/tutor/chat"> <i class="fas fa-comment-dots" id="chatBox"></i></a>
+        <center>
+        <h1 class="mb-4">Attendance</h1>
+        <form action="/tutor/attendance/search/" method="post">
+        <div class="form-group" style="width: 200px;">
+                <input class="form-control" type="date" value="<%= initialDate %>" id="example-date-input" name="date">
+        </div>
+        <button type="submit" class="btn btn-primary mb-4">Search</button>
+        </form>
+        <!-- <a href="/tutor/attendance/add" class="btn btn-primary mb-3">Add Attendance</a> -->
+        </center>
+        <table class="table table-striped table-bordered table-hover"  >
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Roll. No.</th>
+                <th scope="col">Name</th>
+                <th scope="col">Attendance</th>
+              </tr>
+            </thead>
+            <tbody>
+                <% const today = new Date(initialDate).toLocaleDateString() %>
+                <%for (let student of students) { %>
+                    <tr class="trHover" onclick="window.location.href='/tutor/attendance/single/<%= student._id %>'">
+
+                    <% todayAttendance = student.attendance.find(({ date }) => date == today) %>
+
+                    <th scope="row"><%= student.sId %></th>
+                    <td><%= student.name %></td>
+
+                    <% if(todayAttendance) { %>
+                        <% if(todayAttendance.present == true){ %>
+                            <td>P</td>
+                        <% } else { %>
+                            <td>A</td>
+                        <% } %>
+                    <% } else { %>
+                        <td>A</td>
+                    <% } %>    
+                    </tr>
+                <% } %>
+            </tbody>
+          </table>
+    </div>
+    
+<%- include('../includes/end.ejs') %>
+

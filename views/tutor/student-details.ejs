@@ -1,0 +1,112 @@
+<%- include('../includes/head.ejs') %>
+    <style>
+        body{
+            padding-left: 4.5rem;
+        }
+        
+    </style>
+    <style>
+            h1,#tutorContent p{
+                color: #0F2027;
+            }
+            .card {
+              box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+              margin: auto;
+              text-align: center;
+              font-family: arial;
+            }
+            
+            .title {
+              color: rgb(49, 6, 6);
+              font-size: 18px;
+            }
+            .centered{
+              margin: 10px 10px;
+            }
+            .avatar-preview {
+              width: 192px;
+              height: 192px;
+              margin: auto;
+              position: relative;
+              border-radius: 100%;
+              border: 6px solid #F8F8F8;
+              box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+            }
+            .avatar-preview img {
+              width: 100%;
+              height: 100%;
+              border-radius: 100%;
+              background-size: cover;
+              background-repeat: no-repeat;
+              background-position: center;
+            }
+            
+            </style>
+</head>
+
+<body>
+    
+    <%- include('../includes/navigation.ejs') %>
+    <%- include('./nav.ejs') %>
+    <a href="/tutor/chat"> <i class="fas fa-comment-dots" id="chatBox"></i></a>
+        <div class="row m-auto" style="width: 100%;">
+          
+          <div id="studentProfile" class="col-md-3">
+            <div class="card text-center centered">
+              
+                <div class="avatar-preview">
+                  <% if(student.photo == "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREXkCmHkZReqX244oe5PqHs7Xx87MdHEbbfA&usqp=CAU"){ %>
+                    <img id="imagePreview" src="<%= student.photo %>"/>
+                  <% } else { %>
+                    <img id="imagePreview" src="/<%= student.photo %>"/>
+                  <% } %>
+                </div>
+              <h3 class="mt-3 ml-2 mr-2"><%= student.name %></h3>
+              <p class="title"><%= student.sId %></p>
+              <p><%= student.sClass %> - <%= student.sDivision %></p>
+              <p><%= student.mobile %></p>
+              <p><%= student.email %></p>
+              <p class="ml-2 mr-4"><%= student.address %></p>
+            </div>
+            </div>
+
+            <div class="col-md-9 mb-4">
+            <h2 class="text-center mt-4">Assignments</h2>
+            <table class="table table-hover table-bordered" id="table_id" >
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Topic</th>
+                  <th scope="col">Mark</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%for (assignment of assignments){ %>
+                <tr class="trHover">
+                  <th scope="row"><%= assignment.topic %></th>
+                  <td>
+                    <form action="/tutor/assignments/details/<%= assignment._id %>/<%= student._id %>" method="post">
+                      <center>
+                      <input type="text" style="width: 100px;" class="mb-2" name="assignmentMark" value="<%= assignment.mark %>">
+                      
+                      <button type="submit" class="btn btn-primary">Save</button>
+                      </center>
+                    </form>
+                  </td>
+                  <td id="" style="text-align: center;">
+                    <a href="/tutor/assignments/details/<%= assignment._id %>/<%= student._id %>" class="btn btn-warning mr-2"><i class="fas fa-book-open"></i></a>
+                  </td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      <script>
+        $(document).ready( function () {
+          $('#table_id').DataTable();
+        });
+      </script>
+
+<%- include('../includes/end.ejs') %>

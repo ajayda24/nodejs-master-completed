@@ -1,0 +1,59 @@
+<%- include('../includes/head.ejs') %>
+    <style>
+        body{
+            padding-left: 4.5rem;
+        }
+        #tutorContent{
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 5rem;
+        }
+        
+        
+    </style>
+</head>
+
+<body>
+    
+    <%- include('../includes/navigation.ejs') %>
+    <%- include('./nav.ejs') %>
+    <div id="tutorContent" style="width: 35rem;">
+        <a href="/tutor/chat"> <i class="fas fa-comment-dots" id="chatBox"></i></a>
+        <center>
+        <h1 class="mb-4">Attendance</h1>
+        <!-- <a href="/tutor/attendance/add" class="btn btn-primary mb-3">Add Attendance</a> -->
+        <h5><%= student.name %> - <%= student.sId %></h5>
+        </center>
+        <table class="table table-striped table-bordered"  >
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Attendance</th>
+              </tr>
+            </thead>
+            <tbody>
+
+                <%for (let single of attendance) { %>
+
+                    <th scope="row"><%= single.date %></th>
+
+                    <% if(single) { %>
+                        <% if(single.present == true){ %>
+                            <td>P</td>
+                        <% } else { %>
+                            <td>A</td>
+                        <% } %>
+                    <% } else { %>
+                        <td>A</td>
+                    <% } %>    
+                    <tr>
+                      
+                      
+                    </tr>
+                <% } %>
+            </tbody>
+          </table>
+    </div>
+    
+<%- include('../includes/end.ejs') %>
+

@@ -1,0 +1,224 @@
+#mynotifications a{
+  text-decoration: none;
+  color: black;
+}
+
+#mynotifications a:visited{
+  color: black;
+}
+
+#mynotifications .box::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+  border-radius: 5px
+}
+
+#mynotifications .box::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F5F5F5;
+  border-radius: 5px
+}
+
+#mynotifications .box::-webkit-scrollbar-thumb
+{
+	background-color: black;
+	border: 2px solid black;
+  border-radius: 5px
+}
+
+
+
+#mynotifications h1{
+ float: left;
+  padding: 10px 30px
+}
+
+
+#mynotifications .icons{
+  display: inline;
+  float: right
+}
+
+#mynotifications .icon-notification{
+  /* padding-top: 30px; */
+  position: relative;
+  display: inline-block;
+}
+
+#mynotifications .icon-number{
+  height: 22px;
+  width:  22px;
+  background-color: #d63031;
+  border-radius: 20px;
+  color: white;
+  text-align: center;
+  position: absolute;
+  top: 23px;
+  right: 120px;
+  font-size: 0.8rem;
+  border-style: solid;
+  border-width: 2px;
+}
+
+#mynotifications .icon-number:empty {
+   display: none;
+}
+
+#mynotifications .notBtn{
+  transition: 0.5s;
+  cursor: pointer;
+
+}
+
+/* .not .bell{
+  position: relative;
+  right: 140px;
+} */
+
+#mynotifications .fas, #mynotifications .far{
+  font-size: 17pt;
+  padding-bottom: 10px;
+  color: rgb(255, 255, 255);
+  /* margin-right: 40px; */
+  /* margin-left: 40px; */
+}
+
+#mynotifications .box{
+  width: 300px;
+  height: 0px;
+  border-radius: 10px;
+  transition: 0.5s;
+  position: absolute;
+  overflow-y: scroll;
+  padding: 0px;
+  right: 1px;
+  margin-top: 20px;
+  background-color: #F4F4F4;
+  -webkit-box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.2);
+  -moz-box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.1);
+  box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.1);
+  cursor: context-menu;
+  z-index: 10000;
+}
+
+#mynotifications .fas:hover, #mynotifications .far:hover {
+  color: #ffdf28;
+}
+
+/* #mynotifications .notBtn:hover > .box{
+  height: 60vh
+} */
+
+#mynotifications .content{
+  padding: 20px;
+  color: black;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#mynotifications .gry{
+  background-color: #F4F4F4;
+}
+
+#mynotifications .top{
+  color: black;
+  padding: 10px
+}
+
+#mynotifications .display{
+  position: relative;
+}
+
+#mynotifications .cont{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #F4F4F4;
+}
+
+#mynotifications .cont:empty{
+  display: none;
+}
+
+#mynotifications .stick{
+  text-align: center;  
+  display: block;
+  font-size: 50pt;
+  padding-top: 70px;
+  padding-left: 80px
+}
+
+#mynotifications .stick:hover{
+  color: black;
+}
+
+#mynotifications .cent{
+  text-align: center;
+  display: block;
+}
+
+#mynotifications .sec{
+  padding: 25px 10px;
+  background-color: #F4F4F4;
+  transition: 0.5s;
+}
+
+#mynotifications .profCont{
+  padding-left: 15px;
+}
+
+#mynotifications .profile{
+  -webkit-clip-path: circle(50% at 50% 50%);
+  clip-path: circle(50% at 50% 50%);
+  width: 75px;
+  float: left;
+}
+
+#mynotifications .txt{
+  vertical-align: top;
+  font-size: 1rem;
+  padding: 5px 10px 0px 11px;
+}
+
+#mynotifications .sub{
+  font-size: 1rem;
+  color: grey;
+}
+
+#mynotifications .new{
+  border-style: solid solid solid solid;
+  border-color: rgb(190, 127, 127);
+}
+
+#mynotifications .sec:hover{
+  background-color: #BFBFBF;
+}
+
+#mynotifications .box-height{
+  height: 50vh;
+}
+
+/* Computer */
+  @media (min-width: 768px) {
+    #mynotifications .fas, #mynotifications .far{
+      margin-right: 40px;
+    }
+  }
+
+/* Mobile */
+  @media (max-width: 768px) {
+    #mynotifications{
+      margin-right: 20px;
+    }
+    #mynotifications .icon-number{
+      position: absolute;
+      right: 150px;
+    }
+  }
+
+
+
+

@@ -1,0 +1,143 @@
+<%- include('../includes/head.ejs') %>
+    <style>
+        body{
+            padding-left: 4.5rem;
+        }
+        /* #tutorContent.centered{
+        margin: 10px auto;
+        } */
+        #tutorContent{
+        width: 100%;
+        }
+        #assignments{
+        margin: 50px auto;
+        }
+        @media (min-width: 768px) {
+            #assignments{
+                width: 50rem;
+            }
+        }
+
+        #notes{
+        margin: 50px auto;
+        }
+        @media (min-width: 768px) {
+            #notes{
+                width: 50rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    
+    <%- include('../includes/navigation.ejs') %>
+    <%- include('./nav.ejs') %>
+    <div id="tutorContent"  class="centered mr-2 ml-2">
+      <a href="/student/chat"> <i class="fas fa-comment-dots" id="chatBox"></i></a>
+        <div id="assignments"  class="centered allCenter">
+            <h2 class="mb-4">Today's Assignments</h2>
+            <table class="table table-hover table-bordered" id="table_assignment" >
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">View / Download</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <%for (let assignment of assignments) { %>
+                  <tr class="trHover">
+                    <td><%= assignment.topic %></td>
+
+                    <td id="td-<%= assignment._id %>">
+                        
+                        <a class="btn btn-warning mr-2" href="/student/assignments/details/<%= assignment._id %>"><i class="fas fa-book-open"></i></a> 
+    
+                        
+    
+                        <!-- <a class="btn btn-info" href="/students/assignments/<%= assignment._id %>"><i class="fas fa-cloud-download-alt"></i></a> -->
+                            
+                        
+                    </td>
+                  </tr>
+                <% } %>
+                </tbody>
+              </table>
+        </div>
+
+        <div id="notes">
+            <h2 class="mb-4">Today's Notes</h2>
+            <table class="table table-hover table-bordered" id="table_note" >
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">View / Download</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <%for (let note of notes) { %>
+                  <tr class="trHover">
+                    <td ><%= note.topic %></td>
+                    <td id="td-<%= note._id %>">
+                        <form id="<%= note._id %>"  >
+                            <input type="hidden" value="<%= note._id %>" name="studentId">
+                            
+                        </form>
+                        <a class="btn btn-warning mr-2" href="/student/notes/details/<%= note._id %>"><i class="fas fa-book-open"></i></a> 
+    
+                        
+    
+                        <!-- <a class="btn btn-info" href="/student/notes/details/<%= note._id %>"><i class="fas fa-cloud-download-alt"></i></a> -->
+                            
+                        
+                    </td>
+                  </tr>
+                <% } %>
+                </tbody>
+              </table>
+        </div>
+
+        <div id="assignments"  class="centered allCenter">
+            <h2 class="mb-4">Old Assignments</h2>
+            <table class="table table-hover table-bordered" id="table_old_assignment" >
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">View / Download</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <%for (let oldAssignment of oldAssignments) { %>
+                  <tr class="trHover">
+                    <td><%= oldAssignment.topic %></td>
+
+                    <td id="td-<%= oldAssignment._id %>">
+                        
+                        <a class="btn btn-warning mr-2" href="/student/assignments/details/<%= oldAssignment._id %>"><i class="fas fa-book-open"></i></a> 
+    
+                        
+    
+                            
+                        
+                    </td>
+                  </tr>
+                <% } %>
+                </tbody>
+              </table>
+        </div>
+    </div>
+    <script>
+        $(document).ready( function () {
+        $('#table_assignment').DataTable();
+        $('#table_note').DataTable();
+        $('#table_old_assignment').DataTable();
+    });
+    
+    </script>
+
+    <script>
+      const sHeight = document.body.scrollHeight;
+      document.getElementById('sidebar').style.height = sHeight+sHeight+'px';
+    </script>
+
+<%- include('../includes/end.ejs') %>

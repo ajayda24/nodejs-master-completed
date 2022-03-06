@@ -1,0 +1,103 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.1/css/bulma.min.css" integrity="sha512-ZRv40llEogRmoWgZwnsqke3HNzJ0kiI0+pcMgiz2bxO6Ew1DVBtWjVn0qjrXdT3+u+pSN36gLgmJiiQ3cQtyzA==" crossorigin="anonymous" />
+
+<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+
+
+    <style>
+        body{
+            padding-left: 4.5rem;
+        }
+        #tutorContent{
+            margin: 30px auto;
+            width: 50rem;
+        }
+        #form-assignment{
+          margin: auto;
+          
+        }
+        @media (min-width: 768px) {
+        #form-assignment{
+          width: 35rem;
+        }
+    }
+    #hiddenLink{
+      display: none;
+    }
+    
+    </style>
+    
+</head>
+
+<body>
+    
+    <%- include('../includes/navigation.ejs') %>
+    <%- include('./nav.ejs') %>
+        <div id="tutorContent">
+          <button id="rzp-button1">Pay</button>
+        </div>
+        <form action="/tutor/events/details/pay/razor/verify" method="post" id="paymentForm" style="display: none;">
+          <input type="hidden" name="eventId" id="eventId" value="<%= eventOrder.receipt %>">
+          <input type="hidden" name="razorpay_order_id" id="razorpay_order_id">
+          <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
+          <input type="hidden" name="razorpay_signature" id="razorpay_signature">
+
+        </form>
+
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <script>
+  var options = {
+    "key": "rzp_test_uHg1pC3lqMlNyl", // Enter the Key ID generated from the Dashboard
+    "amount": "<%= eventOrder.amount %>", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Class@Home",
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": "<%= eventOrder.id %>", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function (response){
+        // alert(response.razorpay_payment_id);
+        // alert(response.razorpay_order_id);
+        // alert(response.razorpay_signature);
+        verifyPayment(response)
+    },
+    "prefill": {
+        "name": "Ajay Daniel",
+        "email": "ajaydtrevor@gmail.com",
+        "contact": "9496424771"
+    },
+    "notes": {
+        "address": "Class@Home by AjDaniel"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+  };
+  var rzp1 = new Razorpay(options);
+  rzp1.on('payment.failed', function (response){
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+  });
+  document.getElementById('rzp-button1').onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+  }
+
+  function verifyPayment(response){
+    console.log(response);
+    var form = document.getElementById('paymentForm');
+    document.getElementById('razorpay_order_id').value = response.razorpay_order_id;
+    document.getElementById('razorpay_payment_id').value = response.razorpay_payment_id;
+    document.getElementById('razorpay_signature').value = response.razorpay_signature;
+    form.submit()
+  }
+</script>
+<script>
+        const height = window.innerHeight;
+        document.getElementById("sidebar").style.height = height+'px';
+    </script>
+<%- include('../includes/end.ejs') %>

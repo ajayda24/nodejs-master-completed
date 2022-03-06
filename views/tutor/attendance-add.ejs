@@ -1,0 +1,75 @@
+<%- include('../includes/head.ejs') %>
+<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+
+    <style>
+        body{
+            padding-left: 4.5rem;
+        }
+        #tutorContent{
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 5rem;
+        }
+        .absent{
+            color: red;
+        }
+        .present{
+            color: green;
+        }
+        
+    </style>
+</head>
+
+<body>
+    
+    <%- include('../includes/navigation.ejs') %>
+    <%- include('./nav.ejs') %>
+    <div id="tutorContent" style="width: 35rem;">
+        <a href="/tutor/chat"> <i class="fas fa-comment-dots" id="chatBox"></i></a>
+        <center>
+        <h1 class="mb-4">Attendance</h1>
+        </center>
+        <table class="table table-striped table-bordered"  >
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Roll. No.</th>
+                <th scope="col">Name</th>
+                <th scope="col">Attendance</th>
+              </tr>
+            </thead>
+            <tbody>
+                <%for (let student of students) { %>
+                    <tr>
+                      <th scope="row"><%= student.sId %></th>
+                      <td><%= student.name %></td>
+                      <td class="text-center"  id="tr-<%= student._id %>">
+                        <input type="checkbox" id="<%= student._id %>"  data-toggle="toggle" data-on="Present" data-off="Absent" data-onstyle="success" data-offstyle="danger" onchange="changeAttendance(this)">
+                        
+                      </td>
+                    </tr>
+                <% } %>
+            </tbody>
+          </table>
+            <center>
+            <a class="btn btn-danger" href="/tutor/attendance">Cancel</a>
+            <a class="btn btn-success" onclick="saveAttendance()">Save</a>
+            </center>
+
+    </div>
+
+         <script>
+             const array = [];
+             var attendance;
+            function changeAttendance(a){
+                const studentId = a.id;
+                const check = $('#'+studentId).prop('checked');
+                attendance = check;
+                array.push(attendance);
+            };
+            
+            function saveAttendance(){
+                console.log(array);
+            }
+         </script>
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+<%- include('../includes/end.ejs') %>

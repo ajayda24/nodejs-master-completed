@@ -1,0 +1,78 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/tutor/nav.css">
+    <style>
+        #chatBox{
+          font-size: 3rem;
+          color: #aa7ee2;
+          position: fixed;
+          bottom: 20px;
+          right: 30px;
+          z-index: 1000;
+        }
+    </style>
+</head>
+<div class="wrapper">
+ <!-- Sidebar  -->
+ <nav id="sidebar" class="active">
+     <div class="sidebar-header">
+        <a   href="/tutor"> Hi <br> <%= name %> </a>
+     </div>
+
+     <ul class="list-unstyled components">
+        <li class="<%= sPath === '/tutor/profile' ? 'active' : '' %>">
+            <a   href="/tutor/profile"> Profile </a>
+        </li>
+        <li class="<%= sPath === '/tutor/students' ? 'active' : '' %>">
+            <a  href="/tutor/students"> Students </a>
+        </li>
+        <li class="<%= sPath === '/tutor/attendance' ? 'active' : '' %>">
+            <a  href="/tutor/attendance"> Attendance </a>
+        </li>
+        <li class="<%= sPath === '/tutor/assignments' ? 'active' : '' %>">
+            <a  href="/tutor/assignments"> Assignments </a>
+        </li>
+        <li class="<%= sPath === '/tutor/notes' ? 'active' : '' %>">
+            <a  href="/tutor/notes"> Notes </a>
+        </li>
+        <li class="<%= sPath === '/tutor/announcements' ? 'active' : '' %>">
+            <a  href="/tutor/announcements"> Announcements </a>
+        </li>
+        <li class="<%= sPath === '/tutor/events' ? 'active' : '' %>">
+            <a  href="/tutor/events"> Events </a>
+        </li>
+        <li class="<%= sPath === '/tutor/images' ? 'active' : '' %>">
+            <a  href="/tutor/images"> Photos </a>
+        </li>
+     </ul>
+
+    
+ </nav>
+
+
+
+
+<script type="text/javascript">
+ $(document).ready(function () {
+     $('#sidebarCollapse').on('click', function () {
+         $('#sidebar').toggleClass('active');
+     });
+     const sWidth = window.innerWidth;
+     if(sWidth <= 768){
+        $('#sidebar').removeClass('active');    
+        $('#tutorContent').on('click', function () {
+            $('#sidebar').removeClass('active');
+        });
+
+        var body = document.body
+        var html = document.documentElement;
+
+        var sHeight = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.  scrollHeight, html.offsetHeight );
+
+        document.getElementById('sidebar').style.height = sHeight+'px';
+    }
+ });
+</script>
+<script>
+    // var openSocket = io('http://localhost:3000');
+</script>
+<%- include('../includes/end.ejs') %>

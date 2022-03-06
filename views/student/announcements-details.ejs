@@ -1,0 +1,47 @@
+<%- include('../includes/head.ejs') %>
+    <style>
+        body{
+            padding-left: 4.5rem;
+        }
+        #tutorContent{
+          margin: 5rem auto;
+          width: 50rem;
+        }
+        #details{
+          width: 20rem;
+        }
+        #divNotFile{
+          margin: 0 auto;
+        }
+        @media (min-width: 768px) {
+        #details{
+          width: 50rem;
+        }
+    }
+    </style>
+</head>
+
+<body>
+    
+    <%- include('../includes/navigation.ejs') %>
+    <%- include('./nav.ejs') %>
+    <div id="tutorContent" class="centered">
+      <a href="/student/chat"> <i class="fas fa-comment-dots" id="chatBox"></i></a>
+        <div class="card mb-3" id="details" style="margin: auto;">
+          
+            <div class="col-md-8" id="divNotFile">
+              <div class="card-body">
+                <h4 class="card-title "><%= announcement.message %></h4>
+                <h6 class="card-title "><%= announcement.description %></h6>
+                <div class="card-footer bg-transparent border-dark "><%= announcement.date %></div>
+              </div>
+              
+            </div>
+            
+        </div>
+    </div>
+    <script>
+        const height = window.innerHeight;
+        document.getElementById("sidebar").style.height = height+200+'px';
+    </script>
+<%- include('../includes/end.ejs') %>

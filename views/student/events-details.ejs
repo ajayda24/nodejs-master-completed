@@ -1,0 +1,185 @@
+<%- include('../includes/head.ejs') %>
+    <style>
+        body{
+            padding-left: 4.5rem;
+        }
+        #tutorContent{
+          margin: 60px auto;
+        }
+        #details{
+          width: 20rem;
+        }
+        #divNotFile{
+          margin: 0 auto;
+        }
+        @media (min-width: 768px) {
+        #details{
+          width: 50rem;
+        }
+    }
+    
+    </style>
+</head>
+
+<body>
+    
+    <%- include('../includes/navigation.ejs') %>
+    <%- include('./nav.ejs') %>
+    <div id="tutorContent" class="centered">
+      <a href="/student/chat"> <i class="fas fa-comment-dots" id="chatBox"></i></a>
+      <div class="card mb-3" id="details">
+        
+      <% if(!event.paidEvent) { %>
+      <% if(event.file){ %>
+        <% if(video) { %>
+          
+            <center>
+                <video width="100%" controls >
+                  <source src="/<%= event.file %>">
+                </video>
+              <br>
+              <a class="btn btn-primary m-2" style="width: 200px;" href="/<%= event.file %>" target="_blank" rel="noopener noreferrer"> Open / Download</a>
+            </center>
+
+            
+          
+              <!-- <div class="col-md-8" id="divNotFile"> -->
+                <div class="card-body" >
+                  <h6 class=" text-left mb-2">Event : <%= event.eventHead %></h6>
+                  <h6 class=" text-left mb-2">Conducting By : <%= event.eventBy %></h6>
+                  <h6 class=" text-left mb-2">Topic : <%= event.topic %></h6>
+                  <div class="card-footer bg-transparent border-dark ">Date : <%= event.date %></div>
+                </div>
+              
+              <!-- </div> -->
+            
+        <% } else if(image){ %>
+          <div class="row no-gutters">
+            
+              <div class="col-md-4">
+                <img src="/<%= event.file %>" class="card-img" alt="...">
+                <a class="btn btn-primary m-2" href="/<%= event.file %>" target="_blank" rel="noopener noreferrer"> Open / Download</a>
+              </div>
+            
+            
+          
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h4 class="card-title text-left mb-2">Event : <%= event.eventHead %></h4>
+                  <h5 class="card-title text-left mb-2">Conducting By : <%= event.eventBy %></h5>
+                  <h5 class="card-title text-left mb-2">Topic : <%= event.topic %></h5>
+                  <div class="card-footer bg-transparent border-dark ">Date : <%= event.date %></div>
+                </div>
+              
+              </div>
+              
+            
+          </div>
+          <% } %>
+      <% } else { %>
+          
+              <div class="col-md-8" id="divNotFile">
+                <div class="card-body">
+                  <h4 class="card-title text-left mb-2">Event : <%= event.eventHead %></h4>
+                  <h5 class="card-title text-left mb-2">Conducting By : <%= event.eventBy %></h5>
+                  <h5 class="card-title text-left mb-2">Topic : <%= event.topic %></h5>
+                  <div class="card-footer bg-transparent border-dark ">Date : <%= event.date %></div>
+                </div>
+              
+              </div>
+
+      <% } %>
+      <% } else { %>
+        <% if(!eventAccess){ %>
+        <div class="col-md-8" id="divNotFile">
+          <div class="card-body">
+            <h4 class="card-title text-left mb-2">Event : <%= event.eventHead %></h4>
+            <h5 class="card-title text-left mb-2">Conducting By : <%= event.eventBy %></h5>
+            <h5 class="card-title text-left mb-2">Topic : <%= event.topic %></h5>
+            <div class="card-footer bg-transparent border-dark ">Date : <%= event.date %></div>
+          </div>
+
+          <form action="/student/events/details/pay" method="post" id="eventPaymentForm">
+            <input type="hidden" name="eventId" id="eventId" value="<%= event._id %>">
+            <input type="hidden" name="eventPrice" id="eventPrice">
+            <button type="button" class="btn btn-primary mb-3 mt-3" onclick="postPayment()">Pay Rs. <%= event.eventPrice %></button>
+          </form>  
+          
+        </div>
+        <% } else { %>
+          <% if(event.file){ %>
+            <% if(video) { %>
+          
+            <center>
+                <video width="100%" controls >
+                  <source src="/<%= event.file %>">
+                </video>
+              <br>
+              <a class="btn btn-primary m-2" style="width: 200px;" href="/<%= event.file %>" target="_blank" rel="noopener noreferrer"> Open / Download</a>
+            </center>
+
+            
+          
+              <!-- <div class="col-md-8" id="divNotFile"> -->
+                <div class="card-body" >
+                  <h6 class=" text-left mb-2">Event : <%= event.eventHead %></h6>
+                  <h6 class=" text-left mb-2">Conducting By : <%= event.eventBy %></h6>
+                  <h6 class=" text-left mb-2">Topic : <%= event.topic %></h6>
+                  <div class="card-footer bg-transparent border-dark ">Date : <%= event.date %></div>
+                </div>
+              
+              <!-- </div> -->
+            
+            <% } else { %>
+              <div class="row no-gutters">
+            
+              <div class="col-md-4">
+                <img src="/<%= event.file %>" class="card-img" alt="...">
+                <a class="btn btn-primary m-2" href="/<%= event.file %>" target="_blank" rel="noopener noreferrer"> Open / Download</a>
+              </div>
+            
+            
+          
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h4 class="card-title text-left mb-2">Event : <%= event.eventHead %></h4>
+                  <h5 class="card-title text-left mb-2">Conducting By : <%= event.eventBy %></h5>
+                  <h5 class="card-title text-left mb-2">Topic : <%= event.topic %></h5>
+                  <div class="card-footer bg-transparent border-dark ">Date : <%= event.date %></div>
+                </div>
+              
+              </div>
+              
+            
+              </div>
+            <% } %>
+            <% } else { %>
+          
+              <div class="col-md-8" id="divNotFile">
+                <div class="card-body">
+                  <h4 class="card-title text-left mb-2">Event : <%= event.eventHead %></h4>
+                  <h5 class="card-title text-left mb-2">Conducting By : <%= event.eventBy %></h5>
+                  <h5 class="card-title text-left mb-2">Topic : <%= event.topic %></h5>
+                  <div class="card-footer bg-transparent border-dark ">Date : <%= event.date %></div>
+                </div>
+              
+              </div>
+
+            <% } %>
+      <% } %>  
+      <% } %>       
+    </div>
+    </div>
+
+    <script>
+      function postPayment(){
+        var form = document.getElementById('eventPaymentForm');
+        document.getElementById('eventPrice').value = '<%= event.eventPrice %>'
+        form.submit();
+      }
+    </script>
+    <script>
+        const height = window.innerHeight;
+        document.getElementById("sidebar").style.height = height+'px';
+    </script>
+<%- include('../includes/end.ejs') %>

@@ -1,0 +1,71 @@
+<%- include('../includes/head.ejs') %>
+    <style>
+        body{
+            padding-left: 4.5rem;
+        }
+        #tutorContent{
+          margin: 60px auto;
+        }
+        #details{
+          width: 20rem;
+        }
+        @media (min-width: 768px) {
+        #details{
+          width: 50rem;
+        }
+    }
+    
+    </style>
+</head>
+
+<body>
+    
+    <%- include('../includes/navigation.ejs') %>
+    <%- include('./nav.ejs') %>
+    <div id="tutorContent" class="centered">
+      <a href="/tutor/chat"> <i class="fas fa-comment-dots" id="chatBox"></i></a>
+      <% if(assignment.file){ %>
+        <div class="card mb-3 " id="details">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <img src="/<%= assignment.file %>" class="card-img" alt="...">
+              <a class="btn btn-primary m-2" href="/<%= assignment.file %>" target="_blank" rel="noopener noreferrer"> Open / Download</a>
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title "><%= assignment.topic %></h5>
+                <p class="card-text text-left"><%= assignment.content %></p>
+                <div class="card-footer bg-transparent border-dark "><%= assignment.date %></div>
+              </div>
+              
+            </div>
+            
+          </div>
+        </div>
+      <% } else { %>
+        <div class="card border-dark mb-3" style="max-width: 45rem;">
+          <div class="card-header bg-transparent border-primary h3 text-center"><%= assignment.topic %></div>
+          <div class="card-body text-dark">
+            <% enterKey = false %>
+            <% for (i = 0; i < assignment.content.length; i++) { %>
+              <% if (assignment.content[i] === '\n' || assignment.content[i] === '\r') { %>
+                <% enterKey = true %>
+              <% } %>
+            <% } %>
+            <% if(enterKey){ %>
+              <pre class="card-text h5 text-left"><%= assignment.content %></pre>
+            <% } else { %>
+              <p class="card-text h5 text-left"><%= assignment.content %></p>
+            <% } %>
+            
+          </div>
+          <div class="card-footer bg-transparent border-success text-center"><%= assignment.date %></div>
+        </div>
+      <% } %>
+      
+
+
+
+    </div>
+    
+<%- include('../includes/end.ejs') %>

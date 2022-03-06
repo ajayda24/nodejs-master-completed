@@ -1,0 +1,585 @@
+
+<%- include('../includes/head.ejs') %>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.2/bootstrap-material-design.css'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+<style>
+html, body {
+  background: #efefef;      
+  height:100%;  
+}
+#center-text {          
+  display: flex;
+  flex: 1;
+  flex-direction:column; 
+  justify-content: center;
+  align-items: center;  
+  height:100%;
+  
+}
+#chat-circle {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  background: #5A5EB9;
+  width: 80px;
+  height: 80px;  
+  border-radius: 50%;
+  color: white;
+  padding: 28px;
+  cursor: pointer;
+  box-shadow: 0px 3px 16px 0px rgba(0, 0, 0, 0.6), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.btn#my-btn {
+     background: white;
+    padding-top: 13px;
+    padding-bottom: 12px;
+    border-radius: 45px;
+    padding-right: 40px;
+    padding-left: 40px;
+    color: #5865C3;
+}
+#chat-overlay {
+    background: rgba(255,255,255,0.1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: none;
+}
+
+
+.chat-box {
+  display:block;
+  background: #efefef;
+  /* position: absolute;
+  top: 100px; */
+  margin: auto; 
+  width:350px;
+  max-width: 85vw;
+  max-height:100vh;
+  border-radius:5px;  
+  box-shadow: 0px 5px 35px 9px #ccc;
+}
+.chat-box-toggle {
+  float:right;
+  margin-right:15px;
+  cursor:pointer;
+}
+.chat-box-header {
+  background: #5A5EB9;
+  height:70px;
+  border-top-left-radius:5px;
+  border-top-right-radius:5px; 
+  color:white;
+  text-align:center;
+  font-size:20px;
+  padding-top:17px;
+}
+.chat-box-body {
+  /* position: relative;   */
+  height:370px;  
+  height:auto;
+  border:1px solid #ccc;  
+  overflow: hidden;
+}
+.chat-box-body:after {
+  content: "";
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTAgOCkiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PGNpcmNsZSBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIgY3g9IjE3NiIgY3k9IjEyIiByPSI0Ii8+PHBhdGggZD0iTTIwLjUuNWwyMyAxMW0tMjkgODRsLTMuNzkgMTAuMzc3TTI3LjAzNyAxMzEuNGw1Ljg5OCAyLjIwMy0zLjQ2IDUuOTQ3IDYuMDcyIDIuMzkyLTMuOTMzIDUuNzU4bTEyOC43MzMgMzUuMzdsLjY5My05LjMxNiAxMC4yOTIuMDUyLjQxNi05LjIyMiA5LjI3NC4zMzJNLjUgNDguNXM2LjEzMSA2LjQxMyA2Ljg0NyAxNC44MDVjLjcxNSA4LjM5My0yLjUyIDE0LjgwNi0yLjUyIDE0LjgwNk0xMjQuNTU1IDkwcy03LjQ0NCAwLTEzLjY3IDYuMTkyYy02LjIyNyA2LjE5Mi00LjgzOCAxMi4wMTItNC44MzggMTIuMDEybTIuMjQgNjguNjI2cy00LjAyNi05LjAyNS0xOC4xNDUtOS4wMjUtMTguMTQ1IDUuNy0xOC4xNDUgNS43IiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTg1LjcxNiAzNi4xNDZsNS4yNDMtOS41MjFoMTEuMDkzbDUuNDE2IDkuNTIxLTUuNDEgOS4xODVIOTAuOTUzbC01LjIzNy05LjE4NXptNjMuOTA5IDE1LjQ3OWgxMC43NXYxMC43NWgtMTAuNzV6IiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIvPjxjaXJjbGUgZmlsbD0iIzAwMCIgY3g9IjcxLjUiIGN5PSI3LjUiIHI9IjEuNSIvPjxjaXJjbGUgZmlsbD0iIzAwMCIgY3g9IjE3MC41IiBjeT0iOTUuNSIgcj0iMS41Ii8+PGNpcmNsZSBmaWxsPSIjMDAwIiBjeD0iODEuNSIgY3k9IjEzNC41IiByPSIxLjUiLz48Y2lyY2xlIGZpbGw9IiMwMDAiIGN4PSIxMy41IiBjeT0iMjMuNSIgcj0iMS41Ii8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTkzIDcxaDN2M2gtM3ptMzMgODRoM3YzaC0zem0tODUgMThoM3YzaC0zeiIvPjxwYXRoIGQ9Ik0zOS4zODQgNTEuMTIybDUuNzU4LTQuNDU0IDYuNDUzIDQuMjA1LTIuMjk0IDcuMzYzaC03Ljc5bC0yLjEyNy03LjExNHpNMTMwLjE5NSA0LjAzbDEzLjgzIDUuMDYyLTEwLjA5IDcuMDQ4LTMuNzQtMTIuMTF6bS04MyA5NWwxNC44MyA1LjQyOS0xMC44MiA3LjU1Ny00LjAxLTEyLjk4N3pNNS4yMTMgMTYxLjQ5NWwxMS4zMjggMjAuODk3TDIuMjY1IDE4MGwyLjk0OC0xOC41MDV6IiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIvPjxwYXRoIGQ9Ik0xNDkuMDUgMTI3LjQ2OHMtLjUxIDIuMTgzLjk5NSAzLjM2NmMxLjU2IDEuMjI2IDguNjQyLTEuODk1IDMuOTY3LTcuNzg1LTIuMzY3LTIuNDc3LTYuNS0zLjIyNi05LjMzIDAtNS4yMDggNS45MzYgMCAxNy41MSAxMS42MSAxMy43MyAxMi40NTgtNi4yNTcgNS42MzMtMjEuNjU2LTUuMDczLTIyLjY1NC02LjYwMi0uNjA2LTE0LjA0MyAxLjc1Ni0xNi4xNTcgMTAuMjY4LTEuNzE4IDYuOTIgMS41ODQgMTcuMzg3IDEyLjQ1IDIwLjQ3NiAxMC44NjYgMy4wOSAxOS4zMzEtNC4zMSAxOS4zMzEtNC4zMSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjEuMjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvZz48L3N2Zz4=');
+  opacity: 0.1;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height:100%;
+  position: absolute;
+  z-index: -1;   
+}
+#chat-input {
+  background: #f4f7f9;
+  width:100%; 
+  position:relative;
+  height:47px;  
+  padding-top:10px;
+  padding-right:50px;
+  padding-bottom:10px;
+  padding-left:15px;
+  border:none;
+  resize:none;
+  outline:none;
+  border:1px solid #ccc;
+  color:#888;
+  border-top:none;
+  border-bottom-right-radius:5px;
+  border-bottom-left-radius:5px;
+  overflow:hidden;  
+}
+.chat-input > form {
+    margin-bottom: 0;
+}
+#chat-input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #ccc;
+}
+#chat-input::-moz-placeholder { /* Firefox 19+ */
+  color: #ccc;
+}
+#chat-input:-ms-input-placeholder { /* IE 10+ */
+  color: #ccc;
+}
+#chat-input:-moz-placeholder { /* Firefox 18- */
+  color: #ccc;
+}
+.chat-submit {  
+  position: relative;
+  top: 45px;
+  left: 270px;
+  background: transparent;
+  box-shadow:none;
+  border:none;
+  border-radius:50%;
+  color:#5A5EB9;
+  width:35px;
+  height:35px;  
+  z-index: 1500;
+}
+.chat-voice {  
+  position: relative;
+  top: 40px;
+  left: 270px;
+  background: transparent;
+  box-shadow:none;
+  border:none;
+  border-radius:50%;
+  color:#5A5EB9;
+  width:35px;
+  height:35px;
+  font-size: 1.4rem; 
+  z-index: 1500; 
+}
+.chat-logs {
+  padding:15px; 
+  height:370px;
+  overflow-y:scroll;
+}
+
+.chat-logs::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+.chat-logs::-webkit-scrollbar
+{
+	width: 5px;  
+	background-color: #F5F5F5;
+}
+
+.chat-logs::-webkit-scrollbar-thumb
+{
+	background-color: #5A5EB9;
+}
+
+.chat-user-log {
+  padding:15px; 
+  height:370px;
+  overflow-y:scroll;
+}
+
+.chat-user-log::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+.chat-user-log::-webkit-scrollbar
+{
+	width: 5px;  
+	background-color: #F5F5F5;
+}
+
+.chat-user-log::-webkit-scrollbar-thumb
+{
+	background-color: #5A5EB9;
+}
+
+
+@media only screen and (max-width: 500px) {
+   .chat-logs {
+        height:40vh;
+    }
+   .chat-user-log {
+        height:40vh;
+    } 
+}
+
+.chat-msg.user > .msg-avatar img {
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  float:left;
+  width:15%;
+}
+.chat-msg.self > .msg-avatar img {
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  float:right;
+  width:15%;
+}
+.cm-msg-text {
+  background:white;
+  padding:10px 15px 10px 15px;  
+  color:#666;
+  max-width:75%;
+  float:left;
+  margin-left:10px; 
+  position:relative;
+  margin-bottom:20px;
+  border-radius:30px;
+}
+.chat-msg {
+  clear:both;    
+}
+.chat-msg.self > .cm-msg-text {  
+  float:right;
+  margin-right:10px;
+  background: #5A5EB9;
+  color:white;
+}
+.cm-msg-button>ul>li {
+  list-style:none;
+  float:left;
+  width:50%;
+}
+.cm-msg-button {
+    clear: both;
+    margin-bottom: 70px;
+}
+
+.chat-user{
+  display:block;
+  background: #efefef;
+  /* position: absolute;
+  top: 100px;
+  left: 545px; */
+  margin: auto; 
+  width:180px;
+  max-width: 85vw;
+  max-height:100vh;
+  border-radius:5px;  
+  box-shadow: 0px 5px 35px 9px #ccc;
+}
+
+.chat-user-name{
+  background: #5A5EB9;
+  height:50px;
+  border-top-left-radius:5px;
+  border-top-right-radius:5px; 
+  margin: 5px 0 5px 0;
+  color:white;
+  text-align:center;
+  font-size:20px;
+  padding:17px;
+}
+
+.selectedUser{
+  background: #393c74;
+}
+
+#body{
+  margin: auto;
+}
+
+@media only screen and (max-width: 768px) {
+  .row{
+    margin-top: 20px;
+  }
+  .chat-user{
+    width: 34%;
+    margin-left: 10px;
+  }
+  .chat-box {
+    width: 57%;
+    margin-right: 20px;
+  }
+  .chat-box-body{
+    height: 300px;
+  }
+  .chat-submit {  
+    position:absolute;
+    left:300px; 
+    top: 415px; 
+  }
+  .chat-voice {  
+    position:absolute;
+    left:325px;
+    top: 410px; 
+  }
+  #body{
+    margin-top: 5rem;
+  }
+
+}
+
+@media only screen and (min-width: 768px) {
+  
+  
+  .chat-box-body{
+    height: 450px;
+  }
+
+  
+
+}
+
+
+</style>
+
+
+
+</head>
+
+<body translate="no" >
+  <%- include('../includes/navigation.ejs') %>
+    <%- include('./nav.ejs') %>
+    <!-- <div id="tutorContent"> -->
+<div id="body"> 
+  <script>
+    $(".chat-logs").stop().animate({ scrollTop: $(".chat-logs")[0].scrollHeight }, 1000);
+  </script>
+  <div class="row">
+    <div class="chat-user">
+      <div class="chat-box-header">
+        Students
+      </div>
+      <div class="chat-box-body">
+        <div class="chat-user-log" style="height: 420px;">
+          <% for(let student of allStudents) { %>
+            
+          <div class="chat-user-name" id="<%= student._id %>" onclick="window.location.href='/tutor/chat/?studentId=<%= student._id %>'">
+            <%= student.name %>
+          </div>
+          <% } %>
+        </div>
+      </div>
+      </div>
+      <div class="chat-box">
+      <div class="chat-box-header">
+        <% if(isChat) { %>
+          <%= student.name %>
+            <a href="/tutor/chat/video/<%=videoId%>?sId=<%= student._id %>" class="ml-4"><i class="fas fa-video"></i> </a> 
+          
+        <% } else { %>
+          Chat Box
+        <% } %>   
+        
+      </div>
+      <div class="chat-box-body">
+        <div class="chat-box-overlay">   
+        </div>
+        <div class="chat-logs">
+          <% if(isChat) { %>
+          <% for( let chat of chats) { %>
+            <% if(chat.sId) { %>
+              <% if(!chat.voiceUrl) { %>
+                <% if(chat.videoId){ %>
+                  <div id="cm-msg-" class="chat-msg self">      
+                    <div class="cm-msg-text">Started Video Call</div>     
+                  </div>
+                <% } else { %>
+                  <div id="cm-msg-" class="chat-msg self">      
+                    <div class="cm-msg-text"><%= chat.message %></div>     
+                  </div>
+                <% } %>  
+                
+              <% } else { %>
+                <div id="cm-msg-" class="chat-msg self">      
+                  <audio controls class="cm-msg-text" src="/<%= chat.voiceUrl %>"></audio>     
+                </div>
+              <% } %>
+            <% } else { %>
+              <% if(!chat.voiceUrl) { %>
+                <div id="cm-msg-" class="chat-msg user">      
+                  <div class="cm-msg-text"><%= chat.message %></div>     
+                </div>
+              <% } else { %>
+                <div id="cm-msg-" class="chat-msg user">      
+                  <audio controls class="cm-msg-text" src="/<%= chat.voiceUrl %>"></audio>     
+                </div>
+              <% } %>
+              
+            <% } %>
+          <% } %>
+          <% } else { %>
+            <h6 style="padding-top: 140px; text-align: center;">Select a chat to Start Messaging</h6>
+          <% } %>
+        </div>
+
+      <div class="chat-input">      
+        <form  action="/tutor/chat/add" method="post" id="chatSend" enctype="multipart/form-data">
+          <input type="hidden" name="sId" value="<%= queryStudent %>">
+          <% if(isChat) { %>
+            <button type="submit" class="chat-submit" id="chat-submit"><i   class="material-icons">send</i></button>
+            <button type="submit" class="chat-voice" id="btnStart"><i class="fas fa-microphone"></i></button>
+            <input type="text" id="chat-input" placeholder="Send a message..." name="chatMessage" autocomplete="off">
+            
+          <% } else { %>
+            <input type="text" id="chat-input" placeholder="Select a Chat" name="chatMessage" disabled autocomplete="off" autofocus>
+          <% } %>
+          
+        </form>      
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+<!-- </div> -->
+<script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js'></script>
+      <script id="rendered-js" >
+$(function () {
+  var INDEX = 0;
+  $("#chat-submit").click(function (e) {
+    e.preventDefault();
+    var msg = $("#chat-input").val();
+    if (msg.trim() == '') {
+      return false;
+    }
+    generate_message(msg, 'self');
+
+  });
+
+  function generate_message(msg, type) {
+    INDEX++;
+    var str = "";
+    str += "<div id='cm-msg-" + INDEX + "' class=\"chat-msg " + type + "\">";
+    str += "          <div class=\"cm-msg-text\">";
+    str += msg;
+    str += "          <\/div>";
+    str += "        <\/div>";
+    $(".chat-logs").append(str);
+    $("#cm-msg-" + INDEX).hide().fadeIn(300);
+    $('#chatSend').submit();
+    if (type == 'self') {
+      $("#chat-input").val('');
+    }
+    $(".chat-logs").stop().animate({ scrollTop: $(".chat-logs")[0].scrollHeight }, 1000);
+
+    
+  }
+  
+});
+
+var voiceRecord = true;
+
+// $(".chat-voice").click(function (e) {
+//     e.preventDefault();
+
+    
+    let audioIN = { audio: true }; 
+    navigator.mediaDevices.getUserMedia(audioIN) 
+      .then(function (mediaStreamObj) { 
+        var voiceBtn = document.querySelector('.chat-voice')
+        var start = document.querySelector('#btnStart'); 
+        var stop = document.getElementById('#btnStop'); 
+        var mediaRecorder = new MediaRecorder(mediaStreamObj); 
+
+        
+          
+        
+        // let playAudio = document.getElementById('adioPlay'); 
+          voiceBtn.addEventListener('click', function (ev) { 
+            ev.preventDefault();
+            if(voiceRecord){
+              console.log('if block');
+              document.querySelector('.chat-voice').style.color = '#ff0000'
+              document.querySelector('#chat-input').placeholder = 'Recording ...'
+              document.querySelector('#chat-submit').disabled = true
+              mediaRecorder.start(); 
+              document.querySelector('.chat-voice').setAttribute('id','btnStop')
+              voiceRecord = false
+            } else {
+              console.log('else block');
+              document.querySelector('.chat-voice').style.color = '#5A5EB9'
+              document.querySelector('#chat-input').placeholder = 'Send a message...'
+              document.querySelector('#chat-submit').disabled = false
+              mediaRecorder.stop(); 
+              voiceRecord = true
+              document.querySelector('.chat-voice').setAttribute('id','btnStart')
+            // console.log(mediaRecorder.state); 
+            }
+          }) 
+        
+  
+        mediaRecorder.ondataavailable = function (ev) { 
+          dataArray.push(ev.data); 
+        } 
+  
+        let dataArray = []; 
+  
+        mediaRecorder.onstop = async function (ev) { 
+  
+          let audioData = new Blob(dataArray,{ 'type': 'audio/wav;' }); 
+            
+          dataArray = []; 
+  
+          let audioSrc = window.URL 
+              .createObjectURL(audioData); 
+  
+          // Pass the audio url to the 2nd video tag 
+          // playAudio.src = audioSrc; 
+
+          var str = "";
+          str += "<div id='cm-msg' class=\"chat-msg self\">";
+          str += "          <audio controls src='"+audioSrc+"' class=\"cm-msg-text\">";
+          str += "          <\/audio>";
+          str += "        <\/div>";
+          $(".chat-logs").append(str);
+          $("#cm-msg-").hide().fadeIn(300);
+
+            let formData = new FormData();
+            formData.append("files", audioData, "audio.wav");
+            formData.append("sId", "<%= queryStudent %>");
+
+            let response = await fetch('/tutor/chat/add', {
+              method: 'POST',
+              body: formData
+            });
+
+            if(response){
+              location.reload()
+            }
+            // let result =  response.json();
+            console.log(response);
+          
+          $(".chat-logs").stop().animate({ scrollTop: $(".chat-logs")[0].scrollHeight }, -20);
+
+        } 
+
+      });  
+
+    </script>
+<script>
+  $(".chat-logs").stop().animate({ scrollTop: $(".chat-logs")[0].scrollHeight }, -20);
+  var studentId = '<%- queryStudent %>';
+  // if(studentId == '' || studentId == null ){
+  //   studentId = '<%- defaultStudentId %>'
+  // }
+  $('#'+studentId).addClass('selectedUser');
+</script>
+ 
+<script>
+    
+    openSocket.on('chat', data => {
+            $( "#body" ).load(window.location.href + " #body" );
+            $(".chat-logs").stop().animate({ scrollTop: $(".chat-logs")[0].scrollHeight }, -20);
+            location.reload()
+    });
+</script>
+
+<%- include('../includes/end.ejs') %>

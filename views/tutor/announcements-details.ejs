@@ -1,0 +1,81 @@
+<%- include('../includes/head.ejs') %>
+    <style>
+        body{
+            padding-left: 4.5rem;
+        }
+        #tutorContent{
+          margin: 60px auto;
+        }
+        #details{
+          width: 20rem;
+        }
+        #divNotFile{
+          margin: 0 auto;
+        }
+        @media (min-width: 768px) {
+        #details{
+          width: 50rem;
+        }
+        
+    }
+    </style>
+</head>
+
+<body>
+    
+    <%- include('../includes/navigation.ejs') %>
+    <%- include('./nav.ejs') %>
+    <div id="tutorContent" class="centered">
+      <a href="/tutor/chat"> <i class="fas fa-comment-dots" id="chatBox"></i></a>
+        <div class="card mb-3" id="details">
+          <% if(announcement.file){ %>
+            <% if(video) { %>
+            <center>
+                <video width="100%" controls >
+                  <source src="/<%= announcement.file %>">
+                </video>
+              <br>
+              <a class="btn btn-primary m-2" style="width: 200px;" href="/<%= announcement.file %>" target="_blank" rel="noopener noreferrer"> Open / Download</a>
+            </center>
+              <div class="card-body">
+                <h5 class="card-title "><%= announcement.message %></h5>
+                <p class="card-title "><%= announcement.description %></p>
+                <div class="card-footer bg-transparent border-dark "><%= announcement.date %></div>
+              </div>
+              
+            
+          <% } else { %>
+            <div class="row no-gutters">
+            
+              <div class="col-md-4">
+                <img src="/<%= announcement.file %>" class="card-img" alt="...">
+                <a class="btn btn-primary m-2" href="/<%= announcement.file %>" target="_blank" rel="noopener noreferrer"> Open / Download</a>
+              </div>
+            
+            
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title "><%= announcement.message %></h5>
+                <p class="card-title "><%= announcement.description %></p>
+                <div class="card-footer bg-transparent border-dark "><%= announcement.date %></div>
+              </div>
+              
+            </div>
+            
+          </div>
+          <% } %>
+          <% } else { %>
+              <div class="col-md-8" id="divNotFile">
+                <div class="card-body">
+                  <h5 class="card-title "><%= announcement.message %></h5>
+                  <p class="card-title "><%= announcement.description %></p>
+                  <div class="card-footer bg-transparent border-dark "><%= announcement.date %></div>
+                </div>
+                
+              </div>
+
+            <% } %>
+        </div>
+    </div>
+    
+<%- include('../includes/end.ejs') %>

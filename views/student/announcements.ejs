@@ -1,0 +1,74 @@
+<%- include('../includes/head.ejs') %>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.1/css/bulma.min.css" integrity="sha512-ZRv40llEogRmoWgZwnsqke3HNzJ0kiI0+pcMgiz2bxO6Ew1DVBtWjVn0qjrXdT3+u+pSN36gLgmJiiQ3cQtyzA==" crossorigin="anonymous" />
+
+    <style>
+        body{
+            padding-left: 4.5rem;
+        }
+        #tutorContent{
+            margin: 30px auto;
+            width: 40rem;
+        }
+        #form-assignment{
+          margin: auto;
+          
+        }
+        @media (min-width: 768px) {
+        #form-assignment{
+          width: 35rem;
+        }
+    }
+    #hiddenLink{
+      display: none;
+    }
+    </style>
+    
+</head>
+
+<body>
+    
+    <%- include('../includes/navigation.ejs') %>
+    <%- include('./nav.ejs') %>
+        <div id="tutorContent">
+          <a href="/student/chat"> <i class="fas fa-comment-dots" id="chatBox"></i></a>
+            <center>
+                <h1 class="mb-4" style="font-size: 2rem;">Announcements</h1>
+            </center>
+            
+
+              <table class="table table-hover table-bordered mt-4 " id="table_id" >
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Message</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%for (announcement of announcements) { %>
+                  <tr class="trHover" >
+                    <th scope="row"  onclick="window.location.href='announcements/details/<%= announcement._id %>'"><%= announcement.date %>
+                    </th>
+                    <th scope="row"   onclick="window.location.href='announcements/details/<%= announcement._id %>'"><%= announcement.message %>
+                    </th>
+                    
+                  </tr>
+                  <% } %>
+                </tbody>
+              </table>
+        </div>
+
+       
+    
+    <script>
+      $(document).ready( function () {
+              $('#table_id').DataTable({
+                  order: [[0, 'desc']]
+              });
+      });
+    </script>
+    <script>
+        const height = window.innerHeight;
+        document.getElementById("sidebar").style.height = height+'px';
+    </script>
+<%- include('../includes/end.ejs') %>
